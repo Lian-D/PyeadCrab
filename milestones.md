@@ -1,4 +1,4 @@
-# Milestone1 #
+# Milestone 1 #
 
 ## Discussion with TA:
 UML with just static checking might not be enough
