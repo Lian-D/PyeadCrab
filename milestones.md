@@ -25,16 +25,16 @@ After getting the AST, we can make a call graph for functions potentially callin
 
 ## Planned division of responsibliities ##
 ### Frontend ###
-Alex
-Len
+Alex <br>
+Len <br>
 
 ### Backend ###
-Lian
-Steven
+Lian <br>
+Steven <br>
 Nathan
 
 ## Tentative Roadmap ##
-Milestone 3: Bootstrapping and Setup (TBD)
-Milestone 4: Functional mockup and first prototype study (TBD)
-Milestone 5: Close to full completion of the project and perform user study (TBD)
+Milestone 3: Bootstrapping and Setup (TBD) <br>
+Milestone 4: Functional mockup and first prototype study (TBD) <br>
+Milestone 5: Close to full completion of the project and perform user study (TBD) <br>
 November 29: Complete project. (TBD)
