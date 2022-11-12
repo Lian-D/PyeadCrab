@@ -1,34 +1,41 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import ForceGraph2D from 'react-force-graph-2d';
-import data from "../tempData.json";
 
-const GraphPanel = () => {
-    const getData = () => {
-        let i = 0;
-        let newNodes = data.nodes.map(n => {
-            return {
-                ...n,
-                number: i++
-            }
-        });
-        data.nodes = newNodes;
-        return data;
-    }
+const GraphPanel = ({type, data}) => {
+    const [width, setWidth] = useState(window.innerWidth * 0.7);
+    const [height, setHeight] = useState(window.innerHeight);
 
+    useEffect(() => {
+      const changeSize = () => {
+        setWidth(window.innerWidth * 0.7);
+        setHeight(window.innerHeight);
+      }
+    
+      window.addEventListener('resize', changeSize)
+
+      return function cleanup() {
+        window.removeEventListener('resize', changeSize);
+    };
+    })
+    
     const onDragEnd = (node) => {
         node.fx = node.x;
         node.fy = node.y;
         node.fz = node.z;
     };
 
-    const nodeDrawCircle = (node, color, ctx) => {
+    const drawCircle = (node, ctx) => {
+        circlePointerArea(node, getColor(node.number), ctx);
+    }
+
+    const circlePointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
         ctx.beginPath(); 
         ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false); 
         ctx.fill();
     }
 
-    const nodeDrawText = (node, ctx, globalScale) => {
+    const drawText = (node, ctx, globalScale) => {
         const text = node.id;
         const fontSize = 12/globalScale;
         ctx.font = `${fontSize}px Sans-Serif`;
@@ -46,7 +53,7 @@ const GraphPanel = () => {
         node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
     }
 
-    const nodeTextPointerArea = (node, color, ctx) => {
+    const textPointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
         const bckgDimensions = node.__bckgDimensions;
         bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
@@ -55,13 +62,19 @@ const GraphPanel = () => {
     // gen a number persistent color from around the palette
     const getColor = n => '#' + ((n * 1234567) % Math.pow(2, 24)).toString(16).padStart(6, '0');
 
+    const drawFn = type === "circle" ? drawCircle : drawText;
+    const pointerFn = type === "circle" ? circlePointerArea : textPointerArea;
+
     return (
-        <ForceGraph2D
-            graphData={getData()}
+        <ForceGraph2D 
+            width={width}
+            height={height}
+            graphData={data}
             nodeAutoColorBy="group"
-	        nodeLabel="id"
-            nodeCanvasObject={(node, ctx) => nodeDrawCircle(node, getColor(node.number), ctx)}
-            nodePointerAreaPaint={nodeDrawCircle}
+            nodeLabel="id"
+            nodeCanvasObject={drawFn}
+            nodePointerAreaPaint={pointerFn}
+            linkColor={(link) => "gray"}
             onNodeDragEnd={onDragEnd}
         />
     );
