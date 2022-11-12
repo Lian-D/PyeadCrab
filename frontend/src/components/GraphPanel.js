@@ -16,24 +16,18 @@ const GraphPanel = ({type, data}) => {
       return function cleanup() {
         window.removeEventListener('resize', changeSize);
     };
-    })
-    
-    const onDragEnd = (node) => {
-        node.fx = node.x;
-        node.fy = node.y;
-        node.fz = node.z;
-    };
+    });
 
     const drawCircle = (node, ctx) => {
         circlePointerArea(node, getColor(node.number), ctx);
-    }
+    };
 
     const circlePointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
         ctx.beginPath(); 
         ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false); 
         ctx.fill();
-    }
+    };
 
     const drawText = (node, ctx, globalScale) => {
         const text = node.id;
@@ -51,7 +45,7 @@ const GraphPanel = ({type, data}) => {
         ctx.fillText(text, node.x, node.y);
 
         node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
-    }
+    };
 
     const textPointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
@@ -75,7 +69,6 @@ const GraphPanel = ({type, data}) => {
             nodeCanvasObject={drawFn}
             nodePointerAreaPaint={pointerFn}
             linkColor={(link) => "gray"}
-            onNodeDragEnd={onDragEnd}
         />
     );
   }
