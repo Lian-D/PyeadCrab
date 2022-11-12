@@ -1,4 +1,5 @@
 import "./App.css";
+import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import DetailsPanel from "./components/DetailsPanel";
 import GraphPanel from "./components/GraphPanel";
