@@ -38,3 +38,27 @@ Milestone 3: Bootstrapping and Setup (TBD) <br>
 Milestone 4: Functional mockup and first prototype study (TBD) <br>
 Milestone 5: Close to full completion of the project and perform user study (TBD) <br>
 November 29: Complete project. (TBD)
+
+# Milestone 3 #
+Mockup of frontend:
+![image](https://media.github.students.cs.ubc.ca/user/2793/files/6935c86a-b8e4-48dd-bbd6-dcfd850f19d1)
+
+## User Study  ##
+User is a 3rd year Computer Science major
+
+### Task ###
+Identify the location of bugs in a program using the mockup graph
+
+### Feedback ###
+* Graph should be directed
+* Legend would be helpful
+* Circle highlighting for the graph would be nice to have
+
+## Changes to Original Design ##
+None at the moment 
+
+## Progress ##
+We are currently on schedule, bootstrapping and setup has started and implementation work will begin soon. No changes to schedule as of now.
+
+
+
