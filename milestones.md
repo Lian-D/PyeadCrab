@@ -55,7 +55,7 @@ Identify the location of bugs in a program using the mockup graph
 * Circle highlighting for the graph would be nice to have
 
 ## Changes to Original Design ##
-None at the moment 
+None at the moment other than the ones stated in the user study
 
 ## Progress ##
 We are currently on schedule, bootstrapping and setup has started and implementation work will begin soon. No changes to schedule as of now.
