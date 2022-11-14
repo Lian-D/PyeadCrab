@@ -1,18 +1,37 @@
 # Code taken and adapted from https://www.geeksforgeeks.org/python-sys-settrace/
 from sys import settrace
+from os import path
+
+callTrace = []
+
 
 def tracer(frame, event, arg = None):
 
-    code = frame.f_code
-  
-    func_name = code.co_name
+    if event == 'call':
 
-    module_name = code.co_filename
+        code = frame.f_code
 
-    line_no = frame.f_lineno
-  
-    print(f"A {event} encountered in \
-    {func_name}() at line number {line_no} , in module {module_name}")
+        caller = frame.f_back.f_code.co_name
+
+        callerModule = frame.f_back.f_code.co_filename
+        
+
+        callerModule = path.relpath(callerModule)
+
+        callee = code.co_name
+
+        calleeModule = code.co_filename
+
+        calleeModule = path.relpath(calleeModule)
+
+        callTraceDict = {
+            "callee": callee,
+            "calleeModule": calleeModule,
+            "caller": caller,
+            "callerModule": callerModule
+        }
+
+        callTrace.append(callTraceDict)
   
     return tracer
   
@@ -25,3 +44,7 @@ def check():
 settrace(tracer)
   
 check()
+
+check()
+
+print(callTrace)
