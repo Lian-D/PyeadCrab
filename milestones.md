@@ -51,7 +51,7 @@ Identify the location of bugs in a program using the mockup graph
 
 ### Feedback ###
 * Graph should be directed
-* Legend would be helpful
+* Legend for classes would be helpful
 * Circle highlighting for the graph would be nice to have
 
 ## Changes to Original Design ##
