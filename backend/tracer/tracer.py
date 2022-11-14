@@ -7,6 +7,8 @@ callTrace = []
 
 def tracer(frame, event, arg = None):
 
+    global callTrace
+
     if event == 'call':
 
         code = frame.f_code
