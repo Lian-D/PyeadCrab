@@ -54,18 +54,29 @@ const GraphPanel = ({data}) => {
         ctx.strokeStyle = 'black';
         ctx.lineWidth = 2;
         ctx.lineJoin = 'round';
-        ctx.strokeText(text, node.x, node.y);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = "white";
+        ctx.strokeText(text, node.x, node.y);
         ctx.fillText(text, node.x, node.y)
+
+        if (node.class != null) {
+            ctx.font = `${fontSize - 4}px Verdana`;
+            const classLabel = node.class;
+            ctx.fillText(classLabel, node.x, node.y - fontSize);
+        }
+
+        const calls = "calls: " + node.calls;
+        ctx.font = `${fontSize - 8}px Verdana`;
+        ctx.strokeText(calls, node.x, node.y + fontSize);
+        ctx.fillText(calls, node.x, node.y + fontSize)
     };
 
     const nodePointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
         const bckgDimensions = node.__bckgDimensions;
         ctx.beginPath(); 
-        ctx.ellipse(node.x, node.y, bckgDimensions[0], bckgDimensions[1] * 2 , 0, 0, 2 * Math.PI); 
+        ctx.ellipse(node.x, node.y, bckgDimensions[0], bckgDimensions[1] * 2 , 0, 0, 2 * Math.PI);
         ctx.fill();
     };
   
@@ -80,8 +91,7 @@ const GraphPanel = ({data}) => {
             linkDirectionalArrowLength={10}
             linkDirectionalArrowRelPos={0.7}
             nodeAutoColorBy="group"
-            nodeLabel="calls"
-            linkLabel={"calls"}
+            linkLabel="calls"
             nodeCanvasObject={drawNode}
             nodePointerAreaPaint={nodePointerArea}
             linkColor={() => "gray"}
