@@ -7,11 +7,14 @@ const GraphPanel = ({data}) => {
     const [colours, setColours] = useState({});
     const graphRef = useRef();
 
+    const minLinkLength = 100;
+    const maxLinkLength = 600;
     useEffect(() => {
         const graph = graphRef.current;
         graph.d3Force('link')
         .distance(link => {
-            return (1/link.calls) * 400;
+            // scales depending on calls between max and min length
+            return minLinkLength + (1/link.calls) * (maxLinkLength - minLinkLength);
         });
     }, []);
 
@@ -39,7 +42,7 @@ const GraphPanel = ({data}) => {
 
     const drawNode = (node, ctx, globalScale) => {
         const text = node.id;
-        const fontSize = 12/globalScale * (1 + node.calls/2);
+        const fontSize = 12 * (1 + node.calls/2);
         ctx.font = `${fontSize}px Verdana`;
         const textWidth = ctx.measureText(text).width;
         const bckgDimensions = [textWidth, fontSize].map(n => n * 0.75 + fontSize * 0.2); // some padding
@@ -49,13 +52,13 @@ const GraphPanel = ({data}) => {
         nodePointerArea(node, colours[node.class], ctx)
 
         ctx.strokeStyle = 'black';
-        ctx.lineWidth = 4 / globalScale;
+        ctx.lineWidth = 2;
         ctx.lineJoin = 'round';
         ctx.strokeText(text, node.x, node.y);
         ctx.textAlign = 'center';
         ctx.textBaseline = 'middle';
         ctx.fillStyle = "white";
-        ctx.fillText(text, node.x, node.y);
+        ctx.fillText(text, node.x, node.y)
     };
 
     const nodePointerArea = (node, color, ctx) => {
