@@ -9,7 +9,10 @@
 
   ],
   "links": [
-    {"source": "func2(N)", "target": "func1(N)", "calls" : 1},
-    {"source": "func5(N)", "target": "func3(N)", "calls" : 2}
+    {"source": "func2(N)", "target": "func1(N)", "calls" : 5},
+    {"source": "func5(N)", "target": "func3(N)", "calls" : 2},
+    {"source": "__init__(self,name)", "target": "func4(N)", "calls" : 1},
+    {"source": "func4(N)", "target": "func5(N)", "calls" : 2},
+    {"source": "func4(N)", "target": "func1(N)", "calls" : 1}
   ]
 }
