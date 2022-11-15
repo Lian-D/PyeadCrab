@@ -11,9 +11,7 @@ const GraphPanel = ({data}) => {
         const graph = graphRef.current;
         graph.d3Force('link')
         .distance(link => {
-          let dis = ((1 / link.calls) + 1) * 100
-          link.dis = dis;
-          return dis;
+            return (1/link.calls) * 400;
         });
     }, []);
 
