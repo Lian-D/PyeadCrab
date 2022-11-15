@@ -82,12 +82,12 @@ def constructFuncName(funcName, argsTuple):
 
     return constructFunc + ")"
   
-def fun(x):
+def fun():
     return "MOCK"
   
 def check(x,a,*y,**z):
     abc = 1
-    return fun(123)
+    return fun()
   
 settrace(tracer)
   
