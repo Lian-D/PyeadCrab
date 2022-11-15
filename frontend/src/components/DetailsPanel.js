@@ -1,18 +1,21 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
+import { getAnalysis } from "../data/api";
 
-function simulateNetworkRequest() {
-  return new Promise((resolve) => setTimeout(resolve, 2000));
-}
-
-const DetailsPanel = () => {
+const DetailsPanel = ({setData}) => {
   const [isLoading, setLoading] = useState(false);
+  const [testTxt, setTestTxt] = useState("");
 
   useEffect(() => {
     if (isLoading) {
-      //temporary to test out some stuff, replace this with call to backend later
-      simulateNetworkRequest().then(() => {
+      getAnalysis().then((resJSON) => {
         setLoading(false);
+        if (resJSON) {
+          // TODO: Replace with setData when we have a json
+          setTestTxt(resJSON["message"]);
+        } else {
+          return "No response JSON";
+        }
       });
     }
   }, [isLoading]);
@@ -21,7 +24,6 @@ const DetailsPanel = () => {
 
   return (
     <div className="details-panel">
-      <p>temp text</p>
       <Button 
         variant="primary"
         disabled={isLoading}
@@ -29,6 +31,9 @@ const DetailsPanel = () => {
       >
         {isLoading ? "Loading…" : "Start"}
       </Button>
+      <br/>
+      <br/>
+      <p>{testTxt}</p>
     </div>
   );
 }

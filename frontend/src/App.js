@@ -3,7 +3,7 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import React, { useEffect, useState } from "react";
 import DetailsPanel from "./components/DetailsPanel";
 import GraphPanel from "./components/GraphPanel";
-import tempData from "./tempData.json"; //temp until we get data from the backend
+import tempData from "./data/tempData.json"; //temp until we get data from the backend
 
 function App() {
   const [data, setData] = useState({
@@ -26,8 +26,8 @@ function App() {
   return (
     <div className="App">
       <div className="content">
-        <GraphPanel type="circle" data={data}/>
-        <DetailsPanel />
+        <GraphPanel data={data}/>
+        <DetailsPanel setData={setData}/>
       </div>
     </div>
   );
