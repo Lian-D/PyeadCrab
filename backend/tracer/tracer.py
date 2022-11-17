@@ -3,6 +3,7 @@ from sys import settrace
 from os import path
 import inspect
 
+
 callTrace = []
 
 
@@ -30,6 +31,16 @@ def tracer(frame, event, arg = None):
 
         calleeModule = path.relpath(calleeModule)
 
+        # Ignore internal library calls
+        if callerModule[0] == "<":
+            return
+
+        if calleeModule[0] == "<":
+            return
+
+        if caller != "<module>" and (caller[0] == "<" or callee[0] == "<"):
+            return 
+
         callTraceDict = {
             "callee": callee,
             "calleeModule": calleeModule,
@@ -38,7 +49,7 @@ def tracer(frame, event, arg = None):
         }
 
         callTrace.append(callTraceDict)
-  
+        
     return tracer
 
 
@@ -90,8 +101,3 @@ def check(x,a,*y,**z):
     return fun()
   
 settrace(tracer)
-  
-check(1,2)
-
-
-print(callTrace)
