@@ -9,6 +9,7 @@ const GraphPanel = ({data}) => {
 
     const minLinkLength = 100;
     const maxLinkLength = 600;
+
     useEffect(() => {
         const graph = graphRef.current;
         graph.d3Force('link')
@@ -16,6 +17,7 @@ const GraphPanel = ({data}) => {
             // scales depending on calls between max and min length
             return minLinkLength + (1/link.calls) * (maxLinkLength - minLinkLength);
         });
+
     }, []);
 
     useEffect(() => {
@@ -44,8 +46,10 @@ const GraphPanel = ({data}) => {
         const text = node.id;
         const fontSize = 12 * (1 + node.calls/2);
         ctx.font = `${fontSize}px Verdana`;
-        const textWidth = ctx.measureText(text).width;
-        const bckgDimensions = [textWidth, fontSize].map(n => n * 0.75 + fontSize * 0.2); // some padding
+        const textWidth = ctx.measureText(text).width
+        // in case we still want the narrow bubbles:
+        // const bckgDimensions = [textWidth, fontSize].map(n => n * 0.75 + fontSize * 0.2); // some padding
+        const bckgDimensions = textWidth * 0.75 + fontSize * 0.2; // some padding
 
         node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
 
@@ -63,6 +67,7 @@ const GraphPanel = ({data}) => {
         if (node.class != null) {
             ctx.font = `${fontSize - 4}px Verdana`;
             const classLabel = node.class;
+            ctx.strokeText(classLabel, node.x, node.y - fontSize);
             ctx.fillText(classLabel, node.x, node.y - fontSize);
         }
 
@@ -75,11 +80,13 @@ const GraphPanel = ({data}) => {
     const nodePointerArea = (node, color, ctx) => {
         ctx.fillStyle = color;
         const bckgDimensions = node.__bckgDimensions;
-        ctx.beginPath(); 
-        ctx.ellipse(node.x, node.y, bckgDimensions[0], bckgDimensions[1] * 2 , 0, 0, 2 * Math.PI);
+        ctx.beginPath();
+        // in case we still want the narrow bubbles:
+        // ctx.ellipse(node.x, node.y, bckgDimensions[0], bckgDimensions[1] * 2 , 0, 0, 2 * Math.PI)
+        ctx.ellipse(node.x, node.y, bckgDimensions, bckgDimensions , 0, 0, 2 * Math.PI);
         ctx.fill();
-    };
-  
+    }
+
     const getColor = () => '#' + Math.floor((Math.random() * 16777215)).toString(16);
 
     return (
