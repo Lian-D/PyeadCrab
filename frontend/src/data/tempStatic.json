@@ -1,0 +1,69 @@
+[
+    {
+        "class": "main.py",
+        "functionName": "func1",
+        "args": [
+            "N"
+        ]
+    },
+    {
+        "class": "main.py",
+        "functionName": "func2",
+        "args": [
+            "N"
+        ]
+    },
+    {
+        "class": "main.py",
+        "functionName": "func3",
+        "args": [
+            "N"
+        ]
+    },
+    {
+        "class": "main.py",
+        "functionName": "func4",
+        "args": [
+            "N"
+        ]
+    },
+    {
+        "class": "myClass",
+        "functionName": "__init__",
+        "args": [
+            "self",
+            "name"
+        ]
+    },
+    {
+        "class": "myClass",
+        "functionName": "func5",
+        "args": [
+            "self",
+            "x"
+        ]
+    },
+    {
+        "class": "testDep2",
+        "functionName": "__init__",
+        "args": [
+            "self"
+        ]
+    },
+    {
+        "class": "testDep2",
+        "functionName": "gamer",
+        "args": [
+            "self",
+            "n"
+        ]
+    },
+    {
+        "class": "testDep2",
+        "functionName": "func1",
+        "args": [
+            "self",
+            "n"
+        ]
+    }
+]
