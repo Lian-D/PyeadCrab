@@ -62,7 +62,7 @@ We are currently on schedule, bootstrapping and setup has started and implementa
 
 # Milestone 4 #
 ## Implementation status ##
-Frontend is progressing smoothly; we now have an interactable graph with nodes depicting functions. Backend work has been progressing as well, but we have run into several issues that we hope to resolve today. <br>
+Frontend is progressing smoothly; we now have an interactable directed graph with nodes depicting functions. Backend work has been progressing as well, but we have run into several issues that we hope to resolve today. <br>
 
 ## Final user study plan ##
 Given a call graph generated dynamically, we will have our user debug a small sample program<br>
