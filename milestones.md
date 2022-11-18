@@ -60,5 +60,15 @@ None at the moment other than the ones stated in the user study
 ## Progress ##
 We are currently on schedule, bootstrapping and setup has started and implementation work will begin soon. No changes to schedule as of now.
 
+# Milestone 4 #
+## Implementation status ##
+Frontend is progressing smoothly; we now have an interactable graph with nodes depicting functions. Backend work has been progressing as well, but we have run into several issues that we hope to resolve today. <br>
 
+## Final user study plan ##
+Given a call graph generated dynamically, we will have our user debug a small sample program<br>
 
+## Remaining timeline ## 
+We are currently aiming to follow the planned timeline given in the previous milestone. We do not anticipate any major roadblocks that will derail from the timeline at this time <br>
+
+## Progress against planned timeline ##
+Everything is progressing on schedule
