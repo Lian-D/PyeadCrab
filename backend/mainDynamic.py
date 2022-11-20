@@ -80,5 +80,5 @@ tracer.start()
 exec(open(sys.argv[1]).read())
 
 print(tracer.callTrace)
-# print(functionClassMap)
+print(functionClassMap)
 # print(functionDefinitions)
