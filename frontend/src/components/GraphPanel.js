@@ -123,7 +123,7 @@ const GraphPanel = ({data}) => {
       ctx.strokeText(text, node.x, node.y);
       ctx.fillText(text, node.x, node.y)
 
-      if (node.class !== "none") {
+      if (!node.class.endsWith(".py")) {
           ctx.font = `${fontSize * 0.8}px Courier`;
           const classLabel = node.class;
           ctx.strokeText(classLabel, node.x, node.y - fontSize);
