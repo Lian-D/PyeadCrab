@@ -5,7 +5,7 @@ import inspect
 
 
 callTrace = []
-
+classFunctionMap = None
 
 def tracer(frame, event, arg = None):
 
@@ -26,20 +26,21 @@ def tracer(frame, event, arg = None):
         callee = code.co_name
         # Construct callee function name with arguments included
         callee = constructFuncName(callee, inspect.getargvalues(frame))
+        
         # Get caller function module from the current frame
         calleeModule = code.co_filename
 
         calleeModule = path.relpath(calleeModule)
 
         # Ignore internal library calls
-        if callerModule[0] == "<":
-            return
+        # if callerModule[0] == "<":
+        #     return
 
-        if calleeModule[0] == "<":
-            return
+        # if calleeModule[0] == "<":
+        #     return
 
-        if caller != "<module>" and (caller[0] == "<" or callee[0] == "<"):
-            return 
+        # if caller != "<module>" and (caller[0] == "<" or callee[0] == "<"):
+        #     return 
 
         callTraceDict = {
             "callee": callee,
@@ -92,12 +93,14 @@ def constructFuncName(funcName, argsTuple):
         constructFunc = constructFunc +  keywordArgs
 
     return constructFunc + ")"
-  
-def fun():
-    return "MOCK"
-  
-def check(x,a,*y,**z):
-    abc = 1
-    return fun()
-  
-settrace(tracer)
+
+
+def setGlobal(map):
+    
+    global classFunctionMap
+
+    classFunctionMap = map
+
+
+def start():
+    settrace(tracer)
