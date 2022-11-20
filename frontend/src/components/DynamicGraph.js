@@ -11,8 +11,8 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
 
   const minNodeRadius = 100
   const maxNodeRadius = 300
-  const minLinkLength = 100;
-  const maxLinkLength = 1600;
+  const minLinkLength = 2 * maxNodeRadius;
+  const maxLinkLength = 2 * minLinkLength;
 
   const maxNodeCalls = data.nodes.reduce(
         (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
