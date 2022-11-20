@@ -23,7 +23,7 @@ const StaticGraph = ({data, colours, handleLinkClick, handleNodeClick, drawText,
         let area = defaultNodeSize * 0.3;
 
         const fontSize = area * 10 / text.length;
-        ctx.font = `${fontSize}px Verdana`;
+        ctx.font = `${fontSize}px Courier`;
 
         nodePointerArea(node, colours[node.class], ctx);
 
