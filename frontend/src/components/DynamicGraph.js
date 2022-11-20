@@ -12,7 +12,7 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
   const minNodeRadius = 100
   const maxNodeRadius = 300
   const minLinkLength = 100;
-  const maxLinkLength = 800;
+  const maxLinkLength = 1600;
 
   const maxNodeCalls = data.nodes.reduce(
         (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
@@ -22,18 +22,22 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
         (accumulator, currentValue) => Math.min(accumulator, currentValue.calls),
         Infinity
   );
+  const maxLinkCalls = data.links.reduce(
+        (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
+        0
+  );
 
   useEffect(() => {
     graphRef.current.d3Force('link')
     .distance(link => {
         // scales depending on calls between max and min length
         // we might want to make these scale relative to the most amount of calls on the nodes
-        let length = minLinkLength + (1/link.calls) * (maxLinkLength - minLinkLength);
+        let length = minLinkLength + (link.calls / maxLinkCalls) * (maxLinkLength - minLinkLength);
         link.length = length;
         return length;
     });
-  }, []);
-  
+  }, [maxLinkCalls, minLinkLength, maxLinkLength]);
+
   const drawNode = (node, ctx) => {
       const text = node.id;
       const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / (maxNodeCalls - minNodeCalls)) * (node.calls - minNodeCalls);
