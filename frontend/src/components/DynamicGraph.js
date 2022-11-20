@@ -9,10 +9,19 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
   const highlightLinks = useRecoilValue(highlightLinkState);
   const graphRef = useRef();
 
+  const minNodeRadius = 100
+  const maxNodeRadius = 300
   const minLinkLength = 100;
-  const maxLinkLength = 600;
+  const maxLinkLength = 800;
 
-  const nodeBaseRadius = 100;
+  const maxNodeCalls = data.nodes.reduce(
+        (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
+        0
+  );
+  const minNodeCalls = data.nodes.reduce(
+        (accumulator, currentValue) => Math.min(accumulator, currentValue.calls),
+        Infinity
+  );
 
   useEffect(() => {
     graphRef.current.d3Force('link')
@@ -24,13 +33,10 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
         return length;
     });
   }, []);
-
-
+  
   const drawNode = (node, ctx) => {
       const text = node.id;
-      const bckgDimensions = nodeBaseRadius + nodeBaseRadius * node.calls / 4;
-      // TODO: the above method of scaling for bigger call amounts is kinda jank, more preferably we'd have a max and min value that we'd scale between
-      // based on the highest amount and lowest amount of calls that the nodes have
+      const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / (maxNodeCalls - minNodeCalls)) * (node.calls - minNodeCalls);
 
       const textWidth = (2 * bckgDimensions) * 0.8; // we need all of our text to fit in here
       ctx.font = '10px Courier'; // if we want calculations to be accurate, this needs to be a monospace font
