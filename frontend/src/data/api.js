@@ -1,5 +1,5 @@
 export function getAnalysis() {
-    const response = fetch("analyze");
+    const response = fetch("http://localhost:5000/analyze");
     
     return response.then((res) => {
         if (res.status === 200) {

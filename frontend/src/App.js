@@ -10,6 +10,7 @@ function App() {
     nodes: [],
     links: [] 
   });
+  const [isDynamic, setIsDynamic] = useState(false);
 
   useEffect(() => {
     let i = 0;
@@ -26,8 +27,8 @@ function App() {
   return (
     <div className="App">
       <div className="content">
-        <GraphPanel data={data}/>
-        <DetailsPanel setData={setData}/>
+        <GraphPanel data={data} isDynamic={isDynamic}/>
+        <DetailsPanel setData={setData} setIsDynamic={setIsDynamic}/>
       </div>
     </div>
   );

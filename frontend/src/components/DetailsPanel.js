@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import Button from "react-bootstrap/Button";
+import Form from 'react-bootstrap/Form';
 import { getAnalysis } from "../data/api";
 
-const DetailsPanel = ({setData}) => {
+const DetailsPanel = ({setData, setIsDynamic}) => {
   const [isLoading, setLoading] = useState(false);
   const [testTxt, setTestTxt] = useState("");
 
@@ -22,6 +23,10 @@ const DetailsPanel = ({setData}) => {
 
   const handleClick = () => setLoading(true);
 
+  const onToggleDynamic = (e) => {
+    setIsDynamic(e.target.checked);
+  };
+
   return (
     <div className="details-panel">
       <Button 
@@ -34,6 +39,14 @@ const DetailsPanel = ({setData}) => {
       <br/>
       <br/>
       <p>{testTxt}</p>
+      <Form>
+        <Form.Switch 
+          type="switch"
+          id="dynamic-graph-switch"
+          label="Toggle Dynamic Graph"
+          onChange={onToggleDynamic}
+        />
+    </Form>
     </div>
   );
 }

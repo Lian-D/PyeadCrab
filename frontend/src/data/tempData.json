@@ -1,9 +1,9 @@
 {
   "nodes": [
-    {"id": "func1(N)", "class": null, "calls" : 2},
+    {"id": "func1(N)", "class": "none", "calls" : 2},
     {"id": "func2(N)", "class": "class1", "calls" : 1},
-    {"id": "func3(N)", "class": null, "calls" : 0},
-    {"id": "func4(N)", "class": null, "calls" : 2},
+    {"id": "func3(N)", "class": "none", "calls" : 0},
+    {"id": "func4(N)", "class": "none", "calls" : 2},
     {"id": "__init__(self,name)", "class": "myClass", "calls": 1},
     {"id": "func5(N)", "class": "myClass", "calls" :  1}
 

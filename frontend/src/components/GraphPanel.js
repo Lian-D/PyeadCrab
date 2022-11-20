@@ -1,32 +1,31 @@
-import React, { useEffect, useRef, useState } from "react";
-import ForceGraph2D from 'react-force-graph-2d';
+import React, { useEffect, useState } from "react";
+import DynamicGraph from "./DynamicGraph";
+import StaticGraph from "./StaticGraph";
 
-const GraphPanel = ({data}) => {
+const GraphPanel = ({data, isDynamic}) => {
     const [width, setWidth] = useState(window.innerWidth * 0.8);
     const [height, setHeight] = useState(window.innerHeight);
     const [colours, setColours] = useState({});
-    const graphRef = useRef();
-
-    const minLinkLength = 100;
-    const maxLinkLength = 600;
-
-    useEffect(() => {
-        const graph = graphRef.current;
-        graph.d3Force('link')
-        .distance(link => {
-            // scales depending on calls between max and min length
-            return minLinkLength + (1/link.calls) * (maxLinkLength - minLinkLength);
-        });
-
-    }, []);
 
     useEffect(() => {
       let classes = [...new Set(data.nodes.map(n => n.class))];
-      let colourMapping = {};
-      classes.forEach(c => {
-        colourMapping[c] = getColor();
-      });
-      setColours(colourMapping);
+      
+      const getColor = (classes) => {
+        let colourMapping = {};
+        let totalColours = (classes.length > 1) ? classes.length : 1;
+        let hueSection = 360 / totalColours;
+
+        let h,s,l;
+        classes.forEach((c, index) => {
+          h = (index * hueSection) + getRandomInt(hueSection * 0.8);
+          s = Math.max(getRandomInt(100), 20); // prevent the value from going too low (gray)
+          l = Math.max(getRandomInt(100), 20); // prevent the value from going too low (black)
+          l = Math.min(l, 80); // prevent the value from going too high (white)
+          colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
+        });
+        return colourMapping;
+      };
+      setColours(getColor(classes));
     }, [data]);
 
     useEffect(() => {
@@ -39,70 +38,18 @@ const GraphPanel = ({data}) => {
 
       return function cleanup() {
         window.removeEventListener('resize', changeSize);
-    };
+      };
     });
 
-    const drawNode = (node, ctx, globalScale) => {
-        const text = node.id;
-        const fontSize = 12 * (1 + node.calls/2);
-        ctx.font = `${fontSize}px Verdana`;
-        const textWidth = ctx.measureText(text).width
-        // in case we still want the narrow bubbles:
-        // const bckgDimensions = [textWidth, fontSize].map(n => n * 0.75 + fontSize * 0.2); // some padding
-        const bckgDimensions = textWidth * 0.75 + fontSize * 0.2; // some padding
-
-        node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
-
-        nodePointerArea(node, colours[node.class], ctx)
-
-        ctx.strokeStyle = 'black';
-        ctx.lineWidth = 2;
-        ctx.lineJoin = 'round';
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = "white";
-        ctx.strokeText(text, node.x, node.y);
-        ctx.fillText(text, node.x, node.y)
-
-        if (node.class != null) {
-            ctx.font = `${fontSize - 4}px Verdana`;
-            const classLabel = node.class;
-            ctx.strokeText(classLabel, node.x, node.y - fontSize);
-            ctx.fillText(classLabel, node.x, node.y - fontSize);
-        }
-
-        const calls = "calls: " + node.calls;
-        ctx.font = `${fontSize - 8}px Verdana`;
-        ctx.strokeText(calls, node.x, node.y + fontSize);
-        ctx.fillText(calls, node.x, node.y + fontSize)
+    const getRandomInt = (max) => {
+      return Math.floor(Math.random() * max);
     };
 
-    const nodePointerArea = (node, color, ctx) => {
-        ctx.fillStyle = color;
-        const bckgDimensions = node.__bckgDimensions;
-        ctx.beginPath();
-        // in case we still want the narrow bubbles:
-        // ctx.ellipse(node.x, node.y, bckgDimensions[0], bckgDimensions[1] * 2 , 0, 0, 2 * Math.PI)
-        ctx.ellipse(node.x, node.y, bckgDimensions, bckgDimensions , 0, 0, 2 * Math.PI);
-        ctx.fill();
-    }
-
-    const getColor = () => '#' + Math.floor((Math.random() * 16777215)).toString(16);
-
     return (
-        <ForceGraph2D 
-            ref={graphRef}
-            width={width}
-            height={height}
-            graphData={data}
-            linkDirectionalArrowLength={10}
-            linkDirectionalArrowRelPos={0.7}
-            nodeAutoColorBy="group"
-            linkLabel="calls"
-            nodeCanvasObject={drawNode}
-            nodePointerAreaPaint={nodePointerArea}
-            linkColor={() => "gray"}
-        />
+      <>
+      {!isDynamic && <StaticGraph data={data} colours={colours} width={width} height={height} />}
+      {isDynamic && <DynamicGraph data={data} colours={colours} width={width} height={height} />}
+      </>
     );
   }
   
