@@ -2,6 +2,7 @@ import sys
 import os
 import tracer
 import ast
+from pathlib import Path
 
 functionClassMap = []
 # This is a function definition table of our valid functions
@@ -79,6 +80,17 @@ tracer.start()
 
 exec(open(sys.argv[1]).read())
 
+
+trace = tracer.callTrace
+
+# Clean up data and make guesses where appropriate
+# Perform class checking one more time as a sanity check
+for traceObj in trace:
+    if traceObj["caller"] == "<module>" and traceObj["callerClass"] == "<string>":
+        traceObj["callerClass"] = Path(sys.argv[1]).name
+    
+
 print(tracer.callTrace)
 print(functionClassMap)
 # print(functionDefinitions)
+

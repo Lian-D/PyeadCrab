@@ -2,7 +2,7 @@
 from sys import settrace
 from os import path
 import inspect
-
+from pathlib import Path
 
 callTrace = []
 classFunctionMap = None
@@ -27,8 +27,8 @@ def tracer(frame, event, arg = None):
             result = searchClassFunctionMap(callerClass)
             
             # If the class is user defined, set it as the caller class
-            if callerClass != None:
-                callerClass = result["class"]
+            if result != None:
+                callerClass = result
             else:
                 raise Exception("Go to last block")
         except KeyError:
@@ -37,7 +37,7 @@ def tracer(frame, event, arg = None):
             caller = outerFrame.f_code.co_name
             caller = constructFuncName(caller,inspect.getargvalues(outerFrame))
             callerClass = frame.f_back.f_code.co_filename
-            callerClass = path.relpath(callerClass)
+            callerClass = Path(callerClass).name
         except:
             # If outer frame does not exist, set caller and callerClass to None
             caller = None
@@ -55,22 +55,14 @@ def tracer(frame, event, arg = None):
             result = searchClassFunctionMap(calleeClass)
             if result == None:
                 raise Exception("Go to last block")
-        except:
-            # If callee function does not belong to a class, check if it belongs to a user defined module
-            calleeClass = code.co_filename
-            calleeClass = path.relpath(calleeClass)
-            result = searchClassFunctionMap(calleeClass)
-            if result == None:
-                if callee == "<module>" or calleeClass == "<string>":
-                    pass
-                else:
-                    return
+            else:
                 if caller == "<module>" or callerClass == "<string>":
                     # Try to guess which class or module the function belongs to
-                    result = findClassOfFunction(callee)
-                    if result != None:
-                        calleeClass = result
+                    result1 = findClassOfFunction(callee)
+                    if result1 != None:
+                        calleeClass = result1
                     if caller != "<module>":
+                    
                         result2 = findClassOfFunction(caller)
 
                         if result2 != None:
@@ -79,7 +71,48 @@ def tracer(frame, event, arg = None):
                 else:
                     # If caller is not either <module> or <string> this means the function call did not orignate from a user defined 
                     # class or module, so we skip it
-                    return 
+                    resultCaller = searchClassFunctionMap(callerClass)
+                    if resultCaller == None:
+                        return
+                    
+        except:
+            # If callee function does not belong to a class, check if it belongs to a user defined module
+            calleeClass = code.co_filename
+            calleeClass = Path(calleeClass).name
+            result = searchClassFunctionMap(calleeClass)
+            if result == None:
+                if callee == "<module>" or calleeClass == "<string>":
+                    # Ignore if both callee and callee class are <module> and <string> respectively
+                    if callee == "<module>" and calleeClass == "<string>":
+                        return
+                    else:
+                        if callee != "<module>":
+                            result = findClassOfFunction(callee)
+                            if result != None:
+                                calleeClass = result
+                else:
+                    return
+             
+            if caller == "<module>" or callerClass == "<string>":
+                
+                # Try to guess which class or module the function belongs to
+                result1 = findClassOfFunction(callee)
+                if result1 != None:
+                    calleeClass = result1
+                if caller != "<module>":
+                    
+                    result2 = findClassOfFunction(caller)
+
+                    if result2 != None:
+                        callerClass = result2
+                
+            else:
+                # If caller is not either <module> or <string> this means the function call did not orignate from a user defined 
+                # class or module, so we skip it
+                resultCaller = searchClassFunctionMap(callerClass)
+                if resultCaller == None:
+                    return
+                     
 
         callTraceDict = {
             "callee": callee,
