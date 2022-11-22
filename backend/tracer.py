@@ -3,116 +3,52 @@ from sys import settrace
 from os import path
 import inspect
 from pathlib import Path
+import copy
 
 callTrace = []
 classFunctionMap = None
 
 def tracer(frame, event, arg = None):
+
     global callTrace
+
     if event == 'call':
+
         code = frame.f_code
-        # Attempt to get name of calling function from the outer frame
+        #Try to get name of calling function from the outer frame
         outerFrame = None
         caller = None
         callerClass = None
         try:
             outerFrame = frame.f_back
-            # Get caller function module from the outer frame if it exists
             caller = outerFrame.f_code.co_name
             # Construct caller function name with arguments included
-            caller = constructFuncName(caller,inspect.getargvalues(outerFrame))
-            
-            # If the function exists in a class, check if it is user defined
+            caller = constructFuncName(caller, inspect.getargvalues(outerFrame))
+            # Get caller function class if it exists from the outer frame
             callerClass = outerFrame.f_locals['self'].__class__.__name__
-            result = searchClassFunctionMap(callerClass)
-            
-            # If the class is user defined, set it as the caller class
-            if result != None:
-                callerClass = result
-            else:
-                raise Exception("Go to last block")
         except KeyError:
-            # If the caller function does not belong to a class, set the caller and callerClass to whatever the trace says it is for now
-            # and check it when validating callee
+            # If we get a key error, that means the function does not belong to a class, but a module
+            outerFrame = frame.f_back
             caller = outerFrame.f_code.co_name
-            caller = constructFuncName(caller,inspect.getargvalues(outerFrame))
-            callerClass = frame.f_back.f_code.co_filename
+            caller = constructFuncName(caller, inspect.getargvalues(outerFrame))
+            callerClass = outerFrame.f_code.co_filename
             callerClass = Path(callerClass).name
         except:
-            # If outer frame does not exist, set caller and callerClass to None
-            caller = None
-            callerClass = None
+            # Any other error means that the outer frame does not exist
+            pass
 
         # Get name of callee function from current frame
         callee = code.co_name
         # Construct callee function name with arguments included
         callee = constructFuncName(callee, inspect.getargvalues(frame))
         calleeClass = None
-        # Get caller function module from the current frame
+        # Get caller function class or module from the current frame
         try:
-            # Check if callee function is a class
             calleeClass = frame.f_locals['self'].__class__.__name__
-            result = searchClassFunctionMap(calleeClass)
-            if result == None:
-                raise Exception("Go to last block")
-            else:
-                if caller == "<module>" or callerClass == "<string>":
-                    # Try to guess which class or module the function belongs to
-                    result1 = findClassOfFunction(callee)
-                    if result1 != None:
-                        calleeClass = result1
-                    if caller != "<module>":
-                    
-                        result2 = findClassOfFunction(caller)
-
-                        if result2 != None:
-                            callerClass = result2
-                
-                else:
-                    # If caller is not either <module> or <string> this means the function call did not orignate from a user defined 
-                    # class or module, so we skip it
-                    resultCaller = searchClassFunctionMap(callerClass)
-                    if resultCaller == None:
-                        return
-                    
         except:
-            # If callee function does not belong to a class, check if it belongs to a user defined module
             calleeClass = code.co_filename
             calleeClass = Path(calleeClass).name
-            result = searchClassFunctionMap(calleeClass)
-            if result == None:
-                if callee == "<module>" or calleeClass == "<string>":
-                    # Ignore if both callee and callee class are <module> and <string> respectively
-                    if callee == "<module>" and calleeClass == "<string>":
-                        return
-                    else:
-                        if callee != "<module>":
-                            result = findClassOfFunction(callee)
-                            if result != None:
-                                calleeClass = result
-                else:
-                    return
-             
-            if caller == "<module>" or callerClass == "<string>":
-                
-                # Try to guess which class or module the function belongs to
-                result1 = findClassOfFunction(callee)
-                if result1 != None:
-                    calleeClass = result1
-                if caller != "<module>":
-                    
-                    result2 = findClassOfFunction(caller)
 
-                    if result2 != None:
-                        callerClass = result2
-                
-            else:
-                # If caller is not either <module> or <string> this means the function call did not orignate from a user defined 
-                # class or module, so we skip it
-                resultCaller = searchClassFunctionMap(callerClass)
-                if resultCaller == None:
-                    return
-                     
 
         callTraceDict = {
             "callee": callee,
@@ -120,10 +56,12 @@ def tracer(frame, event, arg = None):
             "caller": caller,
             "callerClass": callerClass
         }
-        callTrace.append(callTraceDict)
+        
+        res = isUserDefined(callTraceDict)
+        if res != None:
+            callTrace.append(res)
         
     return tracer
-
 
 def constructFuncName(funcName, argsTuple):
     if funcName == "<module>":
@@ -165,6 +103,81 @@ def constructFuncName(funcName, argsTuple):
 
     return constructFunc + ")"
 
+# Returns a dictionary if user defined functions are involved, returns None otherwise
+def isUserDefined(traceObj):
+    traceCopy = traceObj.copy()
+    callee = traceCopy["callee"]
+    calleeClass = traceCopy["calleeClass"]
+    caller = traceCopy["caller"]
+    callerClass  = traceCopy["callerClass"]
+
+    # If callerClass is <string> then it is possible that the entry point script is calling a function
+    if callerClass == "<string>":
+        # Check if the function being called is a user defined function
+        if caller == "<module>":
+            # If caller is <module> then we know for sure that it is the entry point script calling a function
+            # Check if the callee function is a user defined one
+            userDefinedClass1 = findClassOfFunction(callee)
+            # If the class of the callee is user defined, set it and return the object
+            if userDefinedClass1 != None:
+                traceCopy["calleeClass"] = userDefinedClass1
+                return traceCopy
+            else:
+                return None
+        else:
+            # If caller is not <module>, check if it is user defined. If not user defined, then we discard it
+            userDefinedClass2 = findClassOfFunction(caller)
+            if userDefinedClass2 != None:
+                # If caller is user defined, set the caller class and check callee
+                traceCopy["callerClass"] = userDefinedClass2
+                userDefinedClass3 = findClassOfFunction(callee)
+                if userDefinedClass3 != None:
+                    # If the class of the callee is user defined, set it and return the object
+                    traceCopy["calleeClass"] = userDefinedClass3
+                    return traceCopy
+                else:
+                    return None
+            else:
+                return None
+    else:
+        # If we are here that means that callerClass is an actual class or module, so we have to check if it is user defined
+        validClass1 = searchClassFunctionMap(callerClass)
+        if validClass1 != None:
+            if caller == "<module>":
+                # Check if the callee function is a user defined one
+                userDefinedClass4 = findClassOfFunction(callee)
+                # If the class of the callee is user defined, set it and return the object
+                if userDefinedClass4 != None:
+                    traceCopy["calleeClass"] = userDefinedClass4
+                    return traceCopy
+                else:
+                    return None
+            else:
+                # Check if caller function is user defined
+                userDefinedClass5 = findClassOfFunction(caller)
+                if userDefinedClass5 != None:
+                    # Check if callee function is user defined
+                    userDefinedClass6 = findClassOfFunction(callee)
+                    if userDefinedClass6 != None:
+                        traceCopy["calleeClass"] = userDefinedClass6
+                        return traceCopy
+                    else:
+                        return None
+                else:
+                    return None
+        else:
+            return None
+
+
+
+
+def fillInEntry(entryModule):
+    global callTrace
+    for traceObj in callTrace:
+        if traceObj["caller"] == "<module>" and traceObj["callerClass"] == "<string>":
+            
+            traceObj["callerClass"] = entryModule
+            
 
 def searchClassFunctionMap(className):
     for classFunc in classFunctionMap:
@@ -174,29 +187,41 @@ def searchClassFunctionMap(className):
 
     return None
 
+
 def findClassOfFunction(function):
     for classFunc in classFunctionMap:
         className = classFunc["class"]
         funcName = classFunc["functionName"]
         funcArgs = classFunc["args"]
         args = []
-        # Guess class or module
+        # Get arguments from function name if it isn't <module>
         if function != "<module>":
-            # Get args
             args = function[function.find("(")+1:function.rfind(")")]
             args = args.split(",")
             if (args == ['']):
                 args = []
-                        
-        lastThree = className[len(className)-3:len(className)]
-        if lastThree == ".py":
-            strippedFunction = function[0:function.find("(")]
+        # Get function name without parentheses                
+        strippedFunction = function[0:function.find("(")]
         
-            if strippedFunction == funcName and args == funcArgs:
-                return className
-
+        if strippedFunction == funcName and args == funcArgs:
+            return className
+    
     return None
 
+def findClassAndFunction(className,functionName):
+    for classFunc in classFunctionMap:
+        funcName = functionName[0:functionName.find("(")]
+        args = functionName[functionName.find("(")+1:functionName.rfind(")")]
+        args = args.split(",")
+        if (args == ['']):
+            args = []
+        if classFunc["class"] == className and classFunc["functionName"] == funcName and args == classFunc["args"]:
+            return True
+    return False
+
+
+
+        
 def setGlobal(map):
     
     global classFunctionMap
