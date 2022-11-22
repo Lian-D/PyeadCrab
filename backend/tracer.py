@@ -4,6 +4,7 @@ from os import path
 import inspect
 from pathlib import Path
 import copy
+import random
 
 callTrace = []
 classFunctionMap = None
@@ -189,6 +190,7 @@ def searchClassFunctionMap(className):
 
 
 def findClassOfFunction(function):
+    resultArr = []
     for classFunc in classFunctionMap:
         className = classFunc["class"]
         funcName = classFunc["functionName"]
@@ -202,22 +204,19 @@ def findClassOfFunction(function):
                 args = []
         # Get function name without parentheses                
         strippedFunction = function[0:function.find("(")]
-        
+        # If a match is found, add class name to an array for further processing
         if strippedFunction == funcName and args == funcArgs:
-            return className
-    
-    return None
+            resultArr.append(className)
 
-def findClassAndFunction(className,functionName):
-    for classFunc in classFunctionMap:
-        funcName = functionName[0:functionName.find("(")]
-        args = functionName[functionName.find("(")+1:functionName.rfind(")")]
-        args = args.split(",")
-        if (args == ['']):
-            args = []
-        if classFunc["class"] == className and classFunc["functionName"] == funcName and args == classFunc["args"]:
-            return True
-    return False
+    if len(resultArr) == 0:
+        return None
+    elif len(resultArr) == 1:
+        return resultArr[0]
+    else:
+        # Randomly guess
+        arrLen = len(resultArr)
+        randomGuess = random.randint(0,arrLen-1)
+        return resultArr[randomGuess]
 
 
 
