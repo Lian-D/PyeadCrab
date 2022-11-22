@@ -121,8 +121,11 @@ def isUserDefined(traceObj):
             userDefinedClass1 = findClassOfFunction(callee)
             # If the class of the callee is user defined, set it and return the object
             if userDefinedClass1 != None:
-                traceCopy["calleeClass"] = userDefinedClass1
-                return traceCopy
+                if findClassAndFunction(calleeClass,callee) == True:
+                    return traceCopy
+                else:
+                    traceCopy["calleeClass"] = userDefinedClass1
+                    return traceCopy
             else:
                 return None
         else:
@@ -133,9 +136,11 @@ def isUserDefined(traceObj):
                 traceCopy["callerClass"] = userDefinedClass2
                 userDefinedClass3 = findClassOfFunction(callee)
                 if userDefinedClass3 != None:
-                    # If the class of the callee is user defined, set it and return the object
-                    traceCopy["calleeClass"] = userDefinedClass3
-                    return traceCopy
+                    if findClassAndFunction(calleeClass,callee) == True:
+                        return traceCopy
+                    else:
+                        traceCopy["calleeClass"] = userDefinedClass3
+                        return traceCopy
                 else:
                     return None
             else:
@@ -149,8 +154,11 @@ def isUserDefined(traceObj):
                 userDefinedClass4 = findClassOfFunction(callee)
                 # If the class of the callee is user defined, set it and return the object
                 if userDefinedClass4 != None:
-                    traceCopy["calleeClass"] = userDefinedClass4
-                    return traceCopy
+                    if findClassAndFunction(calleeClass,callee) == True:
+                        return traceCopy
+                    else:
+                        traceCopy["calleeClass"] = userDefinedClass4
+                        return traceCopy
                 else:
                     return None
             else:
@@ -160,8 +168,11 @@ def isUserDefined(traceObj):
                     # Check if callee function is user defined
                     userDefinedClass6 = findClassOfFunction(callee)
                     if userDefinedClass6 != None:
-                        traceCopy["calleeClass"] = userDefinedClass6
-                        return traceCopy
+                        if findClassAndFunction(calleeClass,callee) == True:
+                            return traceCopy
+                        else:
+                            traceCopy["calleeClass"] = userDefinedClass6
+                            return traceCopy
                     else:
                         return None
                 else:
@@ -170,7 +181,16 @@ def isUserDefined(traceObj):
             return None
 
 
-
+def findClassAndFunction(className,functionName):
+    for classFunc in classFunctionMap:
+        funcName = functionName[0:functionName.find("(")]
+        args = functionName[functionName.find("(")+1:functionName.rfind(")")]
+        args = args.split(",")
+        if (args == ['']):
+            args = []
+        if classFunc["class"] == className and classFunc["functionName"] == funcName and args == classFunc["args"]:
+            return True
+    return False
 
 def fillInEntry(entryModule):
     global callTrace
