@@ -58,31 +58,40 @@ dynamic = [
 
 def analyze(dynamic):
     calleeList = []
+    callList = []
 
     for i in range(len(dynamic)):
         calleeStr = dynamic[i]["callee"] + "@" + dynamic[i]["calleeClass"]
         callerStr = dynamic[i]["caller"] + "@" + dynamic[i]["callerClass"]
         calleeList.append(calleeStr)
-        calleeList.append(callerStr)
+        callList.append(calleeStr)
+        callList.append(callerStr)
 
+    calleeUni = np.unique(calleeList)
+    funcList = np.unique(callList)
 
-    funcList = np.unique(calleeList)
-    
     X = np.zeros((len(dynamic),len(funcList)), dtype = int)
     dynlen = len(dynamic)
     y = np.zeros(len(dynamic), dtype = int)
+
+    nodes = []
+
+    for i in range(len(calleeUni)):
+        name = calleeUni[i].split("@")
+        node = {"id": name[0], "class": name[1],
+                "calls": calleeList.count(calleeUni[i])}
+        nodes.append(node)
 
 
     for i in range(len(dynamic)):
         callerStr = dynamic[i]["caller"] + "@" + dynamic[i]["callerClass"]
         calleeStr = dynamic[i]["callee"] + "@" + dynamic[i]["calleeClass"]
-        if(callerStr in calleeList):
+        if(callerStr in callList):
             X[i][np.where(funcList == callerStr)] = 1
             y[i] = np.where(funcList == calleeStr)[0]
-        
-    mat = np.c_[X,y]        
-    print(np.c_[X,y])
-    print(funcList)
+
+    mat = np.c_[X,y]         
+
 
     _, n = np.shape(mat)
     links = []
@@ -98,8 +107,8 @@ def analyze(dynamic):
                         "calls": np.count_nonzero(calleeLinks == uniqueLink[j])}
                 links.append(link)
 
-    links
-    
+    print(links)
+    print(nodes)
 
 
 
