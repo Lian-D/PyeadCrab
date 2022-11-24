@@ -102,7 +102,8 @@ def createForceGraphStructure():
 
     for function in functionClassMap:
         nodeObj = {
-        "id": function.get("functionName")+"("+', '.join(function.get("args"))+")",
+        "id": function.get("className")+"."+function.get("functionName")+"("+', '.join(function.get("args"))+")",
+        "name": function.get("functionName")+"("+', '.join(function.get("args"))+")",
         "class": function.get("className"),
         }
         nodes.append(nodeObj)
@@ -110,9 +111,9 @@ def createForceGraphStructure():
     for function in functionClassMap:
         for functionCall in function.get("functionCalls"):
             for node in nodes:
-                if functionCall in node.get("id"):
+                if functionCall in node.get("name"):
                     linkObj = {
-                        "source": function.get("functionName")+"("+', '.join(function.get("args"))+")",
+                        "source": function.get("className")+"."+function.get("functionName")+"("+', '.join(function.get("args"))+")",
                         "target": node.get("id")
                     }
                     links.append(linkObj)
