@@ -1,69 +1,62 @@
-[
-    {
-        "class": "main.py",
-        "functionName": "func1",
-        "args": [
-            "N"
-        ]
-    },
-    {
-        "class": "main.py",
-        "functionName": "func2",
-        "args": [
-            "N"
-        ]
-    },
-    {
-        "class": "main.py",
-        "functionName": "func3",
-        "args": [
-            "N"
-        ]
-    },
-    {
-        "class": "main.py",
-        "functionName": "func4",
-        "args": [
-            "N"
-        ]
-    },
-    {
-        "class": "myClass",
-        "functionName": "__init__",
-        "args": [
-            "self",
-            "name"
-        ]
-    },
-    {
-        "class": "myClass",
-        "functionName": "func5",
-        "args": [
-            "self",
-            "x"
-        ]
-    },
-    {
-        "class": "testDep2",
-        "functionName": "__init__",
-        "args": [
-            "self"
-        ]
-    },
-    {
-        "class": "testDep2",
-        "functionName": "gamer",
-        "args": [
-            "self",
-            "n"
-        ]
-    },
-    {
-        "class": "testDep2",
-        "functionName": "func1",
-        "args": [
-            "self",
-            "n"
-        ]
-    }
-]
+{
+    "nodes": [
+        {
+            "id": "func1(N)",
+            "class": "main.py"
+        },
+        {
+            "id": "func2(N)",
+            "class": "main.py"
+        },
+        {
+            "id": "func3(N)",
+            "class": "main.py"
+        },
+        {
+            "id": "func4(N)",
+            "class": "main.py"
+        },
+        {
+            "id": "__init__(self, name)",
+            "class": "myClass"
+        },
+        {
+            "id": "func5(self, x)",
+            "class": "myClass"
+        },
+        {
+            "id": "__init__(self)",
+            "class": "testDep2"
+        },
+        {
+            "id": "gamer(self, n)",
+            "class": "testDep2"
+        },
+        {
+            "id": "func1(self, n)",
+            "class": "testDep2"
+        }
+    ],
+    "links": [
+        {
+            "source": "func1(N)",
+            "target": "func1(N)"
+        },
+        {
+            "source": "func1(N)",
+            "target": "func1(self, n)"
+        },
+        {
+            "source": "func2(N)",
+            "target": "func1(N)"
+        },
+        {
+            "source": "func2(N)",
+            "target": "func1(self, n)"
+        },
+        {
+            "source": "func5(self, x)",
+            "target": "func3(N)"
+        }
+    ]
+}
