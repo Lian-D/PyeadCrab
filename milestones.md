@@ -72,3 +72,20 @@ We are currently aiming to follow the planned timeline given in the previous mil
 
 ## Progress against planned timeline ##
 Everything is progressing on schedule
+
+# Milestone 5 #
+## Video plan ##
+Work on the video will begin over the weekend
+
+## Final user study ##
+Same plan as before, will be conducted on the weekend
+
+
+## Planned timeline for remaining days ##
+Complete implementation over weekend <br>
+Work on video and conduct user study over weekend <br>
+Monday-Tuesday: Final adjustments
+
+## Progress against planned timeline ##
+We are progressing on schedule; the implementation is close to completion; all that remains is some backend work on optimization and analysis, as well as some frontend adjustments <br>
+Once that is done we can conduct the final user study and work on the video
