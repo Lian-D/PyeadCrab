@@ -22,7 +22,7 @@ const StaticGraph = ({data, colours, handleLinkClick, handleNodeClick, drawText,
         const text = node.id;
         let area = defaultNodeSize * 0.3;
 
-        const fontSize = area * 10 / text.length;
+        const fontSize = area * 10 / (text.length + 1);
         ctx.font = `${fontSize}px Courier`;
 
         nodePointerArea(node, colours[node.class], ctx);
@@ -39,6 +39,7 @@ const StaticGraph = ({data, colours, handleLinkClick, handleNodeClick, drawText,
             linkDirectionalArrowLength={15}
             linkDirectionalArrowRelPos={1}
             nodeCanvasObject={drawNode}
+            linkLineDash={[10, 5]}
             nodePointerAreaPaint={nodePointerArea}
             linkColor={(link) => highlightLinks.has(link) ? "lightyellow" : "gray"}
             linkWidth={(link) => highlightLinks.has(link) ? 2 : 1}

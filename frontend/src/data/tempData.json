@@ -1,21 +1,74 @@
 {
   "staticGraph" : {
     "nodes": [
-      {"id": "func1(N)", "class": "none"},
-      {"id": "func2(N)", "class": "class1"},
-      {"id": "func3(N)", "class": "none"},
-      {"id": "func4(N)", "class": "none"},
-      {"id": "__init__(self,name)", "class": "myClass"},
-      {"id": "func5(N)", "class": "myClass"}
-
-    ],
-    "links": [
-      {"source": "func2(N)", "target": "func1(N)"},
-      {"source": "func5(N)", "target": "func3(N)"},
-      {"source": "__init__(self,name)", "target": "func4(N)"},
-      {"source": "func4(N)", "target": "func5(N)"},
-      {"source": "func4(N)", "target": "func1(N)"}
-    ]
+      {
+          "id": "main.py.func1(N)",
+          "name": "func1(N)",
+          "class": "main.py"
+      },
+      {
+          "id": "main.py.func2(N)",
+          "name": "func2(N)",
+          "class": "main.py"
+      },
+      {
+          "id": "main.py.func3(N)",
+          "name": "func3(N)",
+          "class": "main.py"
+      },
+      {
+          "id": "main.py.func4(N)",
+          "name": "func4(N)",
+          "class": "main.py"
+      },
+      {
+          "id": "myClass.__init__(self, name)",
+          "name": "__init__(self, name)",
+          "class": "myClass"
+      },
+      {
+          "id": "myClass.func5(self, x)",
+          "name": "func5(self, x)",
+          "class": "myClass"
+      },
+      {
+          "id": "testDep2.__init__(self)",
+          "name": "__init__(self)",
+          "class": "testDep2"
+      },
+      {
+          "id": "testDep2.gamer(self, n)",
+          "name": "gamer(self, n)",
+          "class": "testDep2"
+      },
+      {
+          "id": "testDep2.func1(self, n)",
+          "name": "func1(self, n)",
+          "class": "testDep2"
+      }
+  ],
+  "links": [
+      {
+          "source": "main.py.func1(N)",
+          "target": "main.py.func1(N)"
+      },
+      {
+          "source": "main.py.func1(N)",
+          "target": "testDep2.func1(self, n)"
+      },
+      {
+          "source": "main.py.func2(N)",
+          "target": "main.py.func1(N)"
+      },
+      {
+          "source": "main.py.func2(N)",
+          "target": "testDep2.func1(self, n)"
+      },
+      {
+          "source": "myClass.func5(self, x)",
+          "target": "main.py.func3(N)"
+      }
+  ]
   },
   "dynamicGraph" : {
     "nodes": [

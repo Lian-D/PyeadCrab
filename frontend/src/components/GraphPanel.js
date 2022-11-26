@@ -71,8 +71,8 @@ const GraphPanel = ({data}) => {
         h = (index * hueSection) + getRandomInt(hueSection * 0.8);
         s = Math.max(getRandomInt(100), 20); 
         s = Math.min(s, 90); 
-        l = Math.max(getRandomInt(100), 20); 
-        l = Math.min(l, 80); 
+        l = Math.max(getRandomInt(100), 70); 
+        l = Math.min(l, 90); 
         colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
       });
       
@@ -85,7 +85,7 @@ const GraphPanel = ({data}) => {
 
   useEffect(() => {
     const changeSize = () => {
-      setWidth(window.innerWidth * 0.8);
+      setWidth(window.innerWidth * 0.75);
       setHeight(window.innerHeight);
     }
   
@@ -99,12 +99,16 @@ const GraphPanel = ({data}) => {
   const nodePointerArea = (node, color, ctx) => {
       const bckgDimensions = node.__bckgDimensions;
       if (highlightNodes.has(node)) {
-        ctx.fillStyle = "rgba(255, 255, 100, 0.8";
+        ctx.fillStyle = "rgba(255, 255, 100, 0.8)";
         if (selectedNode && node.id === selectedNode.id) {
-          ctx.fillStyle = "rgba(100, 255, 100, 0.8";
+          ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
         }
         ctx.beginPath();
         ctx.ellipse(node.x, node.y, bckgDimensions + 3, bckgDimensions + 3, 0, 0, 2 * Math.PI);
+        ctx.fill();
+        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
+        ctx.beginPath();
+        ctx.ellipse(node.x, node.y, bckgDimensions + 0.5, bckgDimensions + 0.5, 0, 0, 2 * Math.PI);
         ctx.fill();
       }
       ctx.fillStyle = color;
@@ -115,7 +119,7 @@ const GraphPanel = ({data}) => {
 
   const drawText = (node, ctx, text, fontSize) => {
       ctx.strokeStyle = 'black';
-      ctx.lineWidth = 2;
+      ctx.lineWidth = 1;
       ctx.lineJoin = 'round';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';

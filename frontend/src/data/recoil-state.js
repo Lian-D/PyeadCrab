@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 const widthState = atom({
     key: "width",
-    default: window.innerWidth * 0.8
+    default: window.innerWidth * 0.75
 });
 
 const heightState = atom({

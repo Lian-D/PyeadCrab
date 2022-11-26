@@ -27,6 +27,7 @@
 h1 {
   float: left;
   margin-left: 5%;
+  font-size: 11vw;
 }
 
 .loader {
