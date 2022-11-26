@@ -1,17 +1,18 @@
 import React, { useEffect, useRef } from "react";
 import ForceGraph2D from 'react-force-graph-2d';
 import { useRecoilValue } from "recoil";
-import { highlightLinkState, widthState, heightState } from "../data/recoil-state";
+import { highlightLinkState, widthState, heightState, toggleSimpleState } from "../data/recoil-state";
 
 const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText, nodePointerArea}) => {
   const width = useRecoilValue(widthState);
   const height = useRecoilValue(heightState);
   const highlightLinks = useRecoilValue(highlightLinkState);
+  const isSimpleGraph = useRecoilValue(toggleSimpleState);
   const graphRef = useRef();
 
   const minNodeRadius = 100
   const maxNodeRadius = 300
-  const minLinkLength = 2 * maxNodeRadius;
+  const minLinkLength = 3 * maxNodeRadius;
   const maxLinkLength = 2 * minLinkLength;
 
   const maxNodeCalls = data.nodes.reduce(
@@ -51,13 +52,16 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
       node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
 
       nodePointerArea(node, colours[node.class], ctx);
-
-      drawText(node, ctx, text, fontSize);
-
-      const calls = "calls: " + node.calls;
-      ctx.font = `${fontSize * 0.6}px Courier`;
-      ctx.strokeText(calls, node.x, node.y + fontSize);
-      ctx.fillText(calls, node.x, node.y + fontSize)
+      
+      if (!isSimpleGraph) {
+        drawText(node, ctx, text, fontSize);
+  
+        // maybe keep this info on the side to avoid clutter
+        // const calls = "calls: " + node.calls;
+        // ctx.font = `${fontSize * 0.6}px Courier`;
+        // ctx.strokeText(calls, node.x, node.y + fontSize);
+        // ctx.fillText(calls, node.x, node.y + fontSize)
+      }
   };
 
   return (
@@ -66,15 +70,15 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
           width={width}
           height={height}
           graphData={data}
-          linkDirectionalArrowLength={15}
-          linkDirectionalArrowRelPos={(link) => (link.length - link.target.__bckgDimensions) / link.length}
+          linkDirectionalArrowLength={isSimpleGraph ? 20 : 35}
+          linkDirectionalArrowRelPos={isSimpleGraph ? 1 : (link) => (link.length - link.target.__bckgDimensions) / link.length}
           linkLabel="calls"
           nodeCanvasObject={drawNode}
           nodePointerAreaPaint={nodePointerArea}
-          linkColor={(link) => highlightLinks.has(link) ? "lightyellow" : "gray"}
+          linkColor={(link) => highlightLinks.has(link) ? "yellow" : "lightyellow"}
           linkWidth={(link) => highlightLinks.has(link) ? 2 : 1}
           autoPauseRedraw={false}
-          onNodeClick={(node) => handleNodeClick(node, "dynamic")}
+          onNodeClick={(node) => handleNodeClick(node, data)}
           onLinkClick={handleLinkClick}
       />
   );

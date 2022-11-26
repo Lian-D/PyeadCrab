@@ -1,5 +1,4 @@
 {
-  "staticGraph" : {
     "nodes": [
       {
           "id": "main.py.func1(N)",
@@ -69,23 +68,4 @@
           "target": "main.py.func3(N)"
       }
   ]
-  },
-  "dynamicGraph" : {
-    "nodes": [
-      {"id": "func1(N)", "class": "none", "calls" : 2},
-      {"id": "func2(N)", "class": "class1", "calls" : 1},
-      {"id": "func3(N)", "class": "none", "calls" : 0},
-      {"id": "func4(N)", "class": "none", "calls" : 2},
-      {"id": "__init__(self,name)", "class": "myClass", "calls": 1},
-      {"id": "func5(N)", "class": "myClass", "calls" :  1}
-
-    ],
-    "links": [
-      {"source": "func2(N)", "target": "func1(N)", "calls" : 5},
-      {"source": "func5(N)", "target": "func3(N)", "calls" : 2},
-      {"source": "__init__(self,name)", "target": "func4(N)", "calls" : 1},
-      {"source": "func4(N)", "target": "func5(N)", "calls" : 2},
-      {"source": "func4(N)", "target": "func1(N)", "calls" : 1}
-    ]
   }
-}

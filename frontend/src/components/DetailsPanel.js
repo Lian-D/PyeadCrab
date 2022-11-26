@@ -1,34 +1,38 @@
-import React, { useState } from "react";
+import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from 'react-bootstrap/Form';
-import { useRecoilValue, useSetRecoilState } from "recoil";
-import { selectedNodeState, toggleDynamicState } from "../data/recoil-state";
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { highlightLinkState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState } from "../data/recoil-state";
 
-const DetailsPanel = ({setData}) => {
-  const [testTxt, setTestTxt] = useState("");
-  const selectedNode = useRecoilValue(selectedNodeState);
-  const setIsDynamic = useSetRecoilState(toggleDynamicState);
+const DetailsPanel = ({setStaticData, setDynamicData}) => {
   const logo = require("../data/pyeadCrab.png");
+  const selectedNode = useRecoilValue(selectedNodeState);
+  const selectedLink = useRecoilValue(selectedLinkState);
+  const selectedLinks = useRecoilValue(highlightLinkState);
+  const [isDynamic, setIsDynamic] = useRecoilState(toggleDynamicState);
+  const setIsSimple = useSetRecoilState(toggleSimpleState);
 
   const onToggleDynamic = (e) => {
     setIsDynamic(e.target.checked);
   };
 
-  const handleUpdateClick = () => {
-    delete require.cache[require.resolve("../data/tempData.json")];
-    const tempData = require("../data/tempData.json");
+  const onToggleSimple = (e) => {
+    setIsSimple(e.target.checked);
+  };
 
-    setData(tempData);
-    setTestTxt("JSONs found");
+  const handleUpdateClick = () => {
+    delete require.cache[require.resolve("../data/static.json")];
+    delete require.cache[require.resolve("../data/dynamic.json")];
+    const staticData = require("../data/static.json");
+    const dynamicData = require("../data/dynamic.json");
+
+    setStaticData(staticData);
+    setDynamicData(dynamicData);
   }
 
-  const nodeDetails = selectedNode ? 
-    <>
-      <p>Function: {selectedNode.id}</p>
-      <p>Class: {selectedNode.class}</p>
-      {selectedNode.hasOwnProperty("calls") && <p>Called: {selectedNode.calls} times</p>}
-    </>
-    : null;
+  const getCallees = () => {
+    return <ul>{[...selectedLinks].map((link, i) => <li key={i}>{link.target.id}</li>)}</ul>;
+  };
 
   return (
     <div className="details-panel">
@@ -46,17 +50,36 @@ const DetailsPanel = ({setData}) => {
           >
             Update
           </Button>
-          <p id="status">{testTxt}</p>
         </div>
         <Form.Switch 
           type="switch"
           id="dynamic-graph-switch"
-          label="Toggle Dynamic Graph"
+          label="Show Dynamic Graph"
           onChange={onToggleDynamic}
+        />
+        <Form.Switch 
+          type="switch"
+          id="simple-graph-switch"
+          label="Show Simplified Graph"
+          onChange={onToggleSimple}
         />
       </Form>
       <hr />
-      {nodeDetails}
+      {selectedNode && 
+        <p>
+          Function: {selectedNode.name} <br/>
+          Class: {selectedNode.class} <br/>
+          {isDynamic && <>Called: {selectedNode.calls ? selectedNode.calls + " times" : ""} <br/></>} 
+          Calls: <br/>
+          {getCallees()}
+        </p>
+      }
+      {selectedLink && 
+      <p>
+        Link: <br/>
+        Caller: {selectedLink.source.name} <br/>
+        Callee: {selectedLink.target.name} <br/>
+    </p>}
     </div>
   );
 }

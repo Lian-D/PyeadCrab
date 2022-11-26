@@ -6,23 +6,21 @@ import GraphPanel from "./components/GraphPanel";
 import { RecoilRoot } from 'recoil';
 
 function App() {
-  const [data, setData] = useState({
-    staticGraph: {
-        nodes: [],
-        links: [] 
-    },
-    dynamicGraph: {
-        nodes: [],
-        links: [] 
-    }
+  const [staticData, setStaticData] = useState({
+      nodes: [],
+      links: [] 
   });
+  const [dynamicData, setDynamicData] = useState({
+    nodes: [],
+    links: [] 
+});
 
   return (
     <div className="App">
       <div className="content">
         <RecoilRoot>
-          <GraphPanel data={data}/>
-          <DetailsPanel setData={setData}/>
+          <GraphPanel staticData={staticData} dynamicData={dynamicData} />
+          <DetailsPanel setStaticData={setStaticData} setDynamicData={setDynamicData} />
         </RecoilRoot>
       </div>
     </div>

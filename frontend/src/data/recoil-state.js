@@ -2,7 +2,7 @@ import { atom } from "recoil";
 
 const widthState = atom({
     key: "width",
-    default: window.innerWidth * 0.75
+    default: window.innerWidth * 0.8
 });
 
 const heightState = atom({
@@ -12,6 +12,11 @@ const heightState = atom({
 
 const toggleDynamicState = atom({
   key: "toggleDynamic",
+  default: false
+});
+
+const toggleSimpleState = atom({
+  key: "toggleSimple",
   default: false
 });
 
@@ -30,7 +35,7 @@ const selectedNodeState = atom({
   default: null
 });
 
-const hselectedLinkState = atom({
+const selectedLinkState = atom({
   key: "selectedLink",
   default: null
 });
@@ -39,8 +44,9 @@ export {
     widthState,
     heightState,
     toggleDynamicState,
+    toggleSimpleState,
     highlightNodeState,
     highlightLinkState,
     selectedNodeState,
-    hselectedLinkState
+    selectedLinkState
 };

@@ -1,48 +1,43 @@
 import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
-import { heightState, highlightLinkState, highlightNodeState, selectedNodeState, toggleDynamicState, widthState } from "../data/recoil-state";
+import { heightState, highlightLinkState, highlightNodeState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState, widthState } from "../data/recoil-state";
 import DynamicGraph from "./DynamicGraph";
 import StaticGraph from "./StaticGraph";
 
-const GraphPanel = ({data}) => {
+const GraphPanel = ({staticData, dynamicData}) => {
   const [colours, setColours] = useState({});
   const [highlightNodes, setHighlightNodes] = useRecoilState(highlightNodeState);
   const [highlightLinks, setHighlightLinks] = useRecoilState(highlightLinkState);
-  const selectedNode = useRecoilValue(selectedNodeState);
+  const [selectedNode, setSelectedNode] = useRecoilState(selectedNodeState);
   const isDynamic = useRecoilValue(toggleDynamicState);
+  const isSimpleGraph = useRecoilValue(toggleSimpleState);
   const setWidth = useSetRecoilState(widthState);
   const setHeight = useSetRecoilState(heightState);
-  const setSelectedNode = useSetRecoilState(selectedNodeState);
+  const setSelectedLink = useSetRecoilState(selectedLinkState);
 
   const updateHighlight = () => {
     setHighlightNodes(highlightNodes);
     setHighlightLinks(highlightLinks);
   };
 
-  const handleNodeClick = (node, type) => {
+  const handleNodeClick = (node, data) => {
     highlightNodes.clear();
     highlightLinks.clear();
+    setSelectedLink(null);
     
     highlightNodes.add(node);
-    if (type === "static") {
-      data.staticGraph.links.forEach(link => {
-        if (link.source.id === node.id) {
-          highlightLinks.add(link);
-        }
-      });
-    } else {
-      data.dynamicGraph.links.forEach(link => {
-        if (link.source.id === node.id) {
-          highlightLinks.add(link);
-        }
-      });
-    }
+    data.links.forEach(link => {
+      if (link.source.id === node.id) {
+        highlightLinks.add(link);
+        highlightNodes.add(link.target);
+      }
+    });
     
     setSelectedNode(node ? {...node} : null);
     updateHighlight();
   };
 
-  const handleLinkClick = link => {
+  const handleLinkClick = (link) => {
     highlightNodes.clear();
     highlightLinks.clear();
     setSelectedNode(null);
@@ -52,7 +47,13 @@ const GraphPanel = ({data}) => {
       highlightNodes.add(link.source);
       highlightNodes.add(link.target);
     }
-
+    
+    let newSelected = link ? {...link} : null;
+    if (newSelected) {
+      newSelected.source = {...newSelected.source};
+      newSelected.target = {...newSelected.target};
+    }
+    setSelectedLink(newSelected);
     updateHighlight();
   };
 
@@ -70,7 +71,7 @@ const GraphPanel = ({data}) => {
       classes.forEach((c, index) => {
         h = (index * hueSection) + getRandomInt(hueSection * 0.8);
         s = Math.max(getRandomInt(100), 20); 
-        s = Math.min(s, 90); 
+        s = Math.min(s, 60); 
         l = Math.max(getRandomInt(100), 70); 
         l = Math.min(l, 90); 
         colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
@@ -79,13 +80,13 @@ const GraphPanel = ({data}) => {
       return colourMapping;
     };
 
-    let classes = [...new Set(data.staticGraph.nodes.map(n => n.class))];
+    let classes = [...new Set(staticData.nodes.map(n => n.class))];
     setColours(getColor(classes));
-  }, [data]);
+  }, [staticData]);
 
   useEffect(() => {
     const changeSize = () => {
-      setWidth(window.innerWidth * 0.75);
+      setWidth(window.innerWidth * 0.8);
       setHeight(window.innerHeight);
     }
   
@@ -96,20 +97,22 @@ const GraphPanel = ({data}) => {
     };
   });
 
+  const drawNodeHighlight = (node, ctx, bckgDimensions) => {
+    let r = isSimpleGraph ? bckgDimensions + 2 : bckgDimensions * 1.05;
+    ctx.fillStyle = "gold";
+    if (selectedNode && node.id === selectedNode.id) {
+      ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
+    }
+    ctx.beginPath();
+    ctx.ellipse(node.x, node.y, r, r, 0, 0, 2 * Math.PI);
+    ctx.fill();
+  };
+
   const nodePointerArea = (node, color, ctx) => {
-      const bckgDimensions = node.__bckgDimensions;
+    let simpleSize = Math.max(node.__bckgDimensions / 25, 4);
+      const bckgDimensions = isSimpleGraph ? simpleSize : node.__bckgDimensions;
       if (highlightNodes.has(node)) {
-        ctx.fillStyle = "rgba(255, 255, 100, 0.8)";
-        if (selectedNode && node.id === selectedNode.id) {
-          ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
-        }
-        ctx.beginPath();
-        ctx.ellipse(node.x, node.y, bckgDimensions + 3, bckgDimensions + 3, 0, 0, 2 * Math.PI);
-        ctx.fill();
-        ctx.fillStyle = "rgba(0, 0, 0, 0.3)";
-        ctx.beginPath();
-        ctx.ellipse(node.x, node.y, bckgDimensions + 0.5, bckgDimensions + 0.5, 0, 0, 2 * Math.PI);
-        ctx.fill();
+        drawNodeHighlight(node, ctx, bckgDimensions);
       }
       ctx.fillStyle = color;
       ctx.beginPath();
@@ -118,19 +121,15 @@ const GraphPanel = ({data}) => {
   }
 
   const drawText = (node, ctx, text, fontSize) => {
-      ctx.strokeStyle = 'black';
-      ctx.lineWidth = 1;
       ctx.lineJoin = 'round';
       ctx.textAlign = 'center';
       ctx.textBaseline = 'middle';
-      ctx.fillStyle = "white";
-      ctx.strokeText(text, node.x, node.y);
+      ctx.fillStyle = "black";
       ctx.fillText(text, node.x, node.y)
 
       if (!node.class.endsWith(".py")) {
           ctx.font = `${fontSize * 0.8}px Courier`;
           const classLabel = node.class;
-          ctx.strokeText(classLabel, node.x, node.y - fontSize);
           ctx.fillText(classLabel, node.x, node.y - fontSize);
       }
   };
@@ -139,7 +138,7 @@ const GraphPanel = ({data}) => {
     <>
     {!isDynamic && 
       <StaticGraph 
-        data={data.staticGraph}
+        data={staticData}
         colours={colours}
         handleLinkClick={handleLinkClick}
         handleNodeClick={handleNodeClick}
@@ -149,7 +148,7 @@ const GraphPanel = ({data}) => {
     }
     {isDynamic && 
       <DynamicGraph 
-        data={data.dynamicGraph}
+        data={dynamicData}
         colours={colours}
         handleLinkClick={handleLinkClick}
         handleNodeClick={handleNodeClick}
