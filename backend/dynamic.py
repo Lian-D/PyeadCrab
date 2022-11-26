@@ -3,30 +3,38 @@ import os
 import tracer
 import ast
 from pathlib import Path
-functionClassMap = []
-# This is a function definition table of our valid functions
-functionDefinitions = []
+# Map of functions and their classes. Key is function name with arguments, value is list of classes/modules it belongs under
+functionClassMap = {}
+# Set of classes
+classSet = set()
+
+
 def functionGrab(className ,functionAst):
     functionName = functionAst.name
-    # Add to function definitions map
-    functionDefinitions.append(functionName)
-    functionDefinitions.append(className+"."+functionName)
+    # Add class set 
+    classSet.add(className)
     # Grab the parameters
-    functionArgs = []
+    posArgs = []
+    varArgs = None
+    keywordArgs = None
     for arg in functionAst.args.args:
-        functionArgs.append(arg.arg)
+        posArgs.append(arg.arg)
     if functionAst.args.vararg != None:
-        functionArgs.append("*" + functionAst.args.vararg.arg)
+        varArgs = functionAst.args.vararg.arg
     if functionAst.args.kwarg != None:
-        functionArgs.append("**" + functionAst.args.kwarg.arg)
-    # Creates our object
-    functionObj = {
-        "class": className,
-        "functionName": functionName,
-        "args": functionArgs
-    }
-    # Appends to the map
-    functionClassMap.append(functionObj)
+        keywordArgs = functionAst.args.kwarg.arg
+
+    funcName = tracer.constructFuncName(functionName,posArgs,varArgs,keywordArgs)
+    
+    # Check if function already exists in map, if it doesn't, add it
+    key = functionClassMap.get(funcName)
+
+    if key != None:
+        functionClassMap.get(funcName).append(className)
+    else:
+        functionClassMap[funcName] = [className]
+
+
 def classGrab(classAst):
     iterateClass(classAst)
 def iterateClass(classAst):
@@ -61,7 +69,7 @@ sys.path.insert(0, dir_path)
 # Read the directory of the target program to produce map of user defined classes/modules and their functions
 readRepo(dir_path + "\\")
 # Pass map to tracer script and start the tracing
-tracer.setGlobal(functionClassMap)
+tracer.setGlobals(functionClassMap,classSet)
 tracer.start()
 # Get path to target program from command line arguments
 targetPath = sys.argv[1]
@@ -77,4 +85,7 @@ sys.argv = finalTargetCmdArgs
 exec(open(targetPath).read())
 tracer.fillInEntry(targetEntryPoint)
 print(tracer.callTrace)
+print("\n")
 print(functionClassMap)
+print("\n")
+print(classSet)

@@ -207,52 +207,35 @@ def fillInEntry(entryModule):
             
 @lru_cache(None)
 def searchClassFunctionMap(className):
-    for classFunc in classFunctionMap:
-        # If the class is a user defined class or module, return the class or module name
-        if classFunc["class"] == className:
-            return className
-
+    if className in classSet:
+        return className
     return None
 
 @lru_cache(None)
 def findClassOfFunction(function):
-    resultArr = []
-    for classFunc in classFunctionMap:
-        className = classFunc["class"]
-        funcName = classFunc["functionName"]
-        funcArgs = classFunc["args"]
-        args = []
-        # Get arguments from function name if it isn't <module>
-        if function != "<module>":
-            args = function[function.find("(")+1:function.rfind(")")]
-            args = args.split(",")
-            if (args == ['']):
-                args = []
-        # Get function name without parentheses                
-        strippedFunction = function[0:function.find("(")]
-        # If a match is found, add class name to an array for further processing
-        if strippedFunction == funcName and args == funcArgs:
-            resultArr.append(className)
-
-    if len(resultArr) == 0:
-        return None
-    elif len(resultArr) == 1:
-        return resultArr[0]
+    valClasses = classFunctionMap.get(function)
+    if valClasses != None:
+        if len(valClasses) == 1:
+            return valClasses[0]
+        else:
+            # Randomly guess otherwise. valClasses will never be empty
+            arrLen = len(valClasses)
+            randomGuess = random.randint(0,arrLen-1)
+            return valClasses[randomGuess]
     else:
-        # Randomly guess
-        arrLen = len(resultArr)
-        randomGuess = random.randint(0,arrLen-1)
-        return resultArr[randomGuess]
+        return None
 
 
 
         
-def setGlobal(map):
+def setGlobals(map, set):
     
     global classFunctionMap
 
-    classFunctionMap = map
+    global classSet
 
+    classFunctionMap = map
+    classSet = set
 
 def start():
     setprofile(tracer)
