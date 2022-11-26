@@ -1,5 +1,6 @@
 # Code taken and adapted from https://www.geeksforgeeks.org/python-sys-settrace/
-from sys import settrace
+from functools import lru_cache
+from sys import setprofile
 from os import path
 import inspect
 from pathlib import Path
@@ -24,14 +25,20 @@ def tracer(frame, event, arg = None):
             outerFrame = frame.f_back
             caller = outerFrame.f_code.co_name
             # Construct caller function name with arguments included
-            caller = constructFuncName(caller, inspect.getargvalues(outerFrame))
+            posArgs = inspect.getargvalues(outerFrame).args
+            varArgs = inspect.getargvalues(outerFrame).varargs
+            keywordArgs = inspect.getargvalues(outerFrame).keywords
+            caller = constructFuncName(caller, posArgs, varArgs, keywordArgs)
             # Get caller function class if it exists from the outer frame
             callerClass = outerFrame.f_locals['self'].__class__.__name__
         except KeyError:
             # If we get a key error, that means the function does not belong to a class, but a module
             outerFrame = frame.f_back
             caller = outerFrame.f_code.co_name
-            caller = constructFuncName(caller, inspect.getargvalues(outerFrame))
+            posArgs = inspect.getargvalues(outerFrame).args
+            varArgs = inspect.getargvalues(outerFrame).varargs
+            keywordArgs = inspect.getargvalues(outerFrame).keywords
+            caller = constructFuncName(caller, posArgs, varArgs, keywordArgs)
             callerClass = outerFrame.f_code.co_filename
             callerClass = Path(callerClass).name
         except:
@@ -41,7 +48,10 @@ def tracer(frame, event, arg = None):
         # Get name of callee function from current frame
         callee = code.co_name
         # Construct callee function name with arguments included
-        callee = constructFuncName(callee, inspect.getargvalues(frame))
+        posArgs = inspect.getargvalues(frame).args
+        varArgs = inspect.getargvalues(frame).varargs
+        keywordArgs = inspect.getargvalues(frame).keywords
+        callee = constructFuncName(callee, posArgs, varArgs, keywordArgs)
         calleeClass = None
         # Get caller function class or module from the current frame
         try:
@@ -62,15 +72,11 @@ def tracer(frame, event, arg = None):
         if res != None:
             callTrace.append(res)
         
-    return tracer
 
-def constructFuncName(funcName, argsTuple):
+def constructFuncName(funcName, posArgs = [], varArgs = None, keywordArgs = None):
     if funcName == "<module>":
         return funcName
     
-    posArgs = argsTuple.args
-    varArgs = argsTuple.varargs
-    keywordArgs = argsTuple.keywords
     constructFunc = funcName + "("
 
     # If function has *args, add * in front of it
@@ -180,7 +186,7 @@ def isUserDefined(traceObj):
         else:
             return None
 
-
+@lru_cache(None)
 def findClassAndFunction(className,functionName):
     for classFunc in classFunctionMap:
         funcName = functionName[0:functionName.find("(")]
@@ -199,7 +205,7 @@ def fillInEntry(entryModule):
             
             traceObj["callerClass"] = entryModule
             
-
+@lru_cache(None)
 def searchClassFunctionMap(className):
     for classFunc in classFunctionMap:
         # If the class is a user defined class or module, return the class or module name
@@ -208,7 +214,7 @@ def searchClassFunctionMap(className):
 
     return None
 
-
+@lru_cache(None)
 def findClassOfFunction(function):
     resultArr = []
     for classFunc in classFunctionMap:
@@ -249,4 +255,4 @@ def setGlobal(map):
 
 
 def start():
-    settrace(tracer)
+    setprofile(tracer)
