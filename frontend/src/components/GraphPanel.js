@@ -1,77 +1,163 @@
 import React, { useEffect, useState } from "react";
-import ForceGraph2D from 'react-force-graph-2d';
+import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
+import { heightState, highlightLinkState, highlightNodeState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState, widthState } from "../data/recoil-state";
+import DynamicGraph from "./DynamicGraph";
+import StaticGraph from "./StaticGraph";
 
-const GraphPanel = ({type, data}) => {
-    const [width, setWidth] = useState(window.innerWidth * 0.7);
-    const [height, setHeight] = useState(window.innerHeight);
+const GraphPanel = ({staticData, dynamicData}) => {
+  const [colours, setColours] = useState({});
+  const [highlightNodes, setHighlightNodes] = useRecoilState(highlightNodeState);
+  const [highlightLinks, setHighlightLinks] = useRecoilState(highlightLinkState);
+  const [selectedNode, setSelectedNode] = useRecoilState(selectedNodeState);
+  const isDynamic = useRecoilValue(toggleDynamicState);
+  const isSimpleGraph = useRecoilValue(toggleSimpleState);
+  const setWidth = useSetRecoilState(widthState);
+  const setHeight = useSetRecoilState(heightState);
+  const setSelectedLink = useSetRecoilState(selectedLinkState);
 
-    useEffect(() => {
-      const changeSize = () => {
-        setWidth(window.innerWidth * 0.7);
-        setHeight(window.innerHeight);
-      }
+  const updateHighlight = () => {
+    setHighlightNodes(highlightNodes);
+    setHighlightLinks(highlightLinks);
+  };
+
+  const handleNodeClick = (node, data) => {
+    highlightNodes.clear();
+    highlightLinks.clear();
+    setSelectedLink(null);
     
-      window.addEventListener('resize', changeSize)
-
-      return function cleanup() {
-        window.removeEventListener('resize', changeSize);
-    };
+    highlightNodes.add(node);
+    data.links.forEach(link => {
+      if (link.source.id === node.id) {
+        highlightLinks.add(link);
+        highlightNodes.add(link.target);
+      }
     });
+    
+    setSelectedNode(node ? {...node} : null);
+    updateHighlight();
+  };
 
-    const drawCircle = (node, ctx) => {
-        circlePointerArea(node, getColor(node.number), ctx);
+  const handleLinkClick = (link) => {
+    highlightNodes.clear();
+    highlightLinks.clear();
+    setSelectedNode(null);
+
+    if (link) {
+      highlightLinks.add(link);
+      highlightNodes.add(link.source);
+      highlightNodes.add(link.target);
+    }
+    
+    let newSelected = link ? {...link} : null;
+    if (newSelected) {
+      newSelected.source = {...newSelected.source};
+      newSelected.target = {...newSelected.target};
+    }
+    setSelectedLink(newSelected);
+    updateHighlight();
+  };
+
+  useEffect(() => {
+    const getRandomInt = (max) => {
+      return Math.floor(Math.random() * max);
     };
 
-    const circlePointerArea = (node, color, ctx) => {
-        ctx.fillStyle = color;
-        ctx.beginPath(); 
-        ctx.arc(node.x, node.y, 5, 0, 2 * Math.PI, false); 
-        ctx.fill();
+    const getColor = (classes) => {
+      let colourMapping = {};
+      let totalColours = (classes.length > 1) ? classes.length : 1;
+      let hueSection = 360 / totalColours;
+
+      let h,s,l;
+      classes.forEach((c, index) => {
+        h = (index * hueSection) + getRandomInt(hueSection * 0.8);
+        s = Math.max(getRandomInt(100), 20); 
+        s = Math.min(s, 60); 
+        l = Math.max(getRandomInt(100), 70); 
+        l = Math.min(l, 90); 
+        colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
+      });
+      
+      return colourMapping;
     };
 
-    const drawText = (node, ctx, globalScale) => {
-        const text = node.id;
-        const fontSize = 12/globalScale;
-        ctx.font = `${fontSize}px Sans-Serif`;
-        const textWidth = ctx.measureText(text).width;
-        const bckgDimensions = [textWidth, fontSize].map(n => n + fontSize * 0.2); // some padding
+    let classes = [...new Set(staticData.nodes.map(n => n.class))];
+    setColours(getColor(classes));
+  }, [staticData]);
 
-        ctx.fillStyle = 'rgba(255, 255, 255, 1)';
-        ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-
-        ctx.textAlign = 'center';
-        ctx.textBaseline = 'middle';
-        ctx.fillStyle = node.color;
-        ctx.fillText(text, node.x, node.y);
-
-        node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
-    };
-
-    const textPointerArea = (node, color, ctx) => {
-        ctx.fillStyle = color;
-        const bckgDimensions = node.__bckgDimensions;
-        bckgDimensions && ctx.fillRect(node.x - bckgDimensions[0] / 2, node.y - bckgDimensions[1] / 2, ...bckgDimensions);
-    };
+  useEffect(() => {
+    const changeSize = () => {
+      setWidth(window.innerWidth * 0.8);
+      setHeight(window.innerHeight);
+    }
   
-    // gen a number persistent color from around the palette
-    const getColor = n => '#' + ((n * 1234567) % Math.pow(2, 24)).toString(16).padStart(6, '0');
+    window.addEventListener('resize', changeSize)
 
-    const drawFn = type === "circle" ? drawCircle : drawText;
-    const pointerFn = type === "circle" ? circlePointerArea : textPointerArea;
+    return function cleanup() {
+      window.removeEventListener('resize', changeSize);
+    };
+  });
 
-    return (
-        <ForceGraph2D 
-            width={width}
-            height={height}
-            graphData={data}
-            nodeAutoColorBy="group"
-            nodeLabel="id"
-            nodeCanvasObject={drawFn}
-            nodePointerAreaPaint={pointerFn}
-            linkColor={(link) => "gray"}
-        />
-    );
+  const drawNodeHighlight = (node, ctx, bckgDimensions) => {
+    let r = isSimpleGraph ? bckgDimensions + 2 : bckgDimensions * 1.05;
+    ctx.fillStyle = "gold";
+    if (selectedNode && node.id === selectedNode.id) {
+      ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
+    }
+    ctx.beginPath();
+    ctx.ellipse(node.x, node.y, r, r, 0, 0, 2 * Math.PI);
+    ctx.fill();
+  };
+
+  const nodePointerArea = (node, color, ctx) => {
+    let simpleSize = Math.max(node.__bckgDimensions / 25, 4);
+      const bckgDimensions = isSimpleGraph ? simpleSize : node.__bckgDimensions;
+      if (highlightNodes.has(node)) {
+        drawNodeHighlight(node, ctx, bckgDimensions);
+      }
+      ctx.fillStyle = color;
+      ctx.beginPath();
+      ctx.ellipse(node.x, node.y, bckgDimensions, bckgDimensions , 0, 0, 2 * Math.PI);
+      ctx.fill();
   }
+
+  const drawText = (node, ctx, text, fontSize) => {
+      ctx.lineJoin = 'round';
+      ctx.textAlign = 'center';
+      ctx.textBaseline = 'middle';
+      ctx.fillStyle = "black";
+      ctx.fillText(text, node.x, node.y)
+
+      if (!node.class.endsWith(".py")) {
+          ctx.font = `${fontSize * 0.8}px Courier`;
+          const classLabel = node.class;
+          ctx.fillText(classLabel, node.x, node.y - fontSize);
+      }
+  };
+
+  return (
+    <>
+    {!isDynamic && 
+      <StaticGraph 
+        data={staticData}
+        colours={colours}
+        handleLinkClick={handleLinkClick}
+        handleNodeClick={handleNodeClick}
+        drawText={drawText}
+        nodePointerArea={nodePointerArea}
+      />
+    }
+    {isDynamic && 
+      <DynamicGraph 
+        data={dynamicData}
+        colours={colours}
+        handleLinkClick={handleLinkClick}
+        handleNodeClick={handleNodeClick}
+        drawText={drawText}
+        nodePointerArea={nodePointerArea}
+      />}
+    </>
+  );
+}
   
 export default GraphPanel;
   
