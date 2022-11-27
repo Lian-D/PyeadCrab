@@ -11,5 +11,5 @@ This project uses the Flask framework. Here's how to use it: <br>
 
 # How do I run the backend? #
 ```main.py``` is the entry point for the backend. <br> 
-To run the static analysis, use ``` python main.py <directory> -s ``` from the command line in the \\backend directory. Make sure that the last slash in the directory path is escaped. Ex. ```samplecode\test\\```. <br>
-To run the dynamic analysis use ``` python main.py <path to entry point file> -d <cmdArgs>```, where ```<cmdArgs>``` is an arbitrary list of command line arguments for the target program, separated by spaces.
+*To run the static analysis, use ``` python main.py <directory> -s ``` from the command line in the \\backend directory. Make sure that the last slash in the directory path is escaped. Ex. ```samplecode\test\\```. <br>
+*To run the dynamic analysis, use ``` python main.py <path to entry point file> -d <cmdArgs>```, where ```<cmdArgs>``` is an arbitrary list of command line arguments for the target program, separated by spaces. **NOTE**: The dynamic analysis assumes that the entry point file is directly under the project directory. Ex. for ```samplecode\test\main.py```, the dynamic analysis assumes that ```test``` is the project directory
