@@ -63,29 +63,23 @@ def readRepo(repo):
         except:
             pass
 
-# Get path from command line arguments and insert it into the system
-dir_path = os.path.dirname(os.path.realpath(sys.argv[1]))
-sys.path.insert(0, dir_path)
-# Read the directory of the target program to produce map of user defined classes/modules and their functions
-readRepo(dir_path + "\\")
-# Pass map to tracer script and start the tracing
-tracer.setGlobals(functionClassMap,classSet)
-tracer.start()
-# Get path to target program from command line arguments
-targetPath = sys.argv[1]
-# Get name of entry point file
-targetEntryPoint = Path(targetPath).name
-# Get command line arguments for target program, if any
-targetCmdArgs = sys.argv[2:]
-finalTargetCmdArgs = [targetEntryPoint]
-for arg in targetCmdArgs:
-    finalTargetCmdArgs.append(arg)
-# Manually set command line arguments so that they are available for target program execution
-sys.argv = finalTargetCmdArgs
-exec(open(targetPath).read())
-tracer.fillInEntry(targetEntryPoint)
-print(tracer.callTrace)
-print("\n")
-print(functionClassMap)
-print("\n")
-print(classSet)
+
+def execute(targetPath, targetCmdArgs):
+    globals()["__name__"] = "__main__"
+    # Get path from command line arguments and insert it into the system
+    dir_path = os.path.dirname(os.path.realpath(targetPath))
+    sys.path.insert(0, dir_path)
+    # Read the directory of the target program to produce map of user defined classes/modules and their functions
+    readRepo(dir_path + "\\")
+    # Pass map to tracer script and start the tracing
+    tracer.setGlobals(functionClassMap,classSet)
+    tracer.start()
+    # Get name of entry point file
+    targetEntryPoint = Path(targetPath).name
+    finalTargetCmdArgs = [targetEntryPoint] + targetCmdArgs
+    # Manually set command line arguments so that they are available for target program execution
+    sys.argv = finalTargetCmdArgs
+    exec(open(targetPath).read(), globals(), globals())
+    tracer.fillInEntry(targetEntryPoint)
+    with open('../frontend/src/data/tempDynamic.json', 'w+') as outfile:
+        outfile.write(str(tracer.callTrace))

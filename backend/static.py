@@ -82,16 +82,18 @@ def readRepo(repo):
     directoryArr = os.listdir(repo)
 
     for fileName in directoryArr:
-        file = repo+fileName
-        tracerFile = open(file,'r').read()
-        tracerTree = ast.parse(tracerFile)
-
-        for x in tracerTree.body:
-            match x.__class__:
-                case ast.FunctionDef:
-                    functionGrab(fileName,x)
-                case ast.ClassDef:
-                    classGrab(x)
+        try:
+            file = repo+fileName
+            tracerFile = open(file,'r').read()
+            tracerTree = ast.parse(tracerFile)
+            for x in tracerTree.body:
+                match x.__class__:
+                    case ast.FunctionDef:
+                        functionGrab(fileName,x)
+                    case ast.ClassDef:
+                        classGrab(x)
+        except:
+            pass
     # print(functionClassMap)
     # print(functionDefinitions)
     # print(variableMap)
@@ -132,4 +134,5 @@ def main():
     with open('../frontend/src/data/tempStatic.json', 'w+') as outfile:
         outfile.write(jsonOutput)
 
-main()
+if __name__ == "__main__":
+    main()
