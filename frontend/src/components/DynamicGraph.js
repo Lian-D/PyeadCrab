@@ -33,7 +33,7 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
     .distance(link => {
         // scales depending on calls between max and min length
         // we might want to make these scale relative to the most amount of calls on the nodes
-        let length = minLinkLength + (link.calls / maxLinkCalls) * (maxLinkLength - minLinkLength);
+        let length = minLinkLength + (1 - (link.calls / maxLinkCalls)) * (maxLinkLength - minLinkLength);
         link.length = length;
         return length;
     });
