@@ -4,56 +4,56 @@ import matplotlib.pyplot as plt
 
 # First convert the function calls into one-hot-encoding
 
-dynamic = [
-   {
-      "callee":"<module>",
-      "calleeClass":"<string>",
-      "caller":"<module>",
-      "callerClass":"mainDynamic.py"
-   },
-   {
-      "callee":"__init__(self)",
-      "calleeClass":"Classer",
-      "caller":"<module>",
-      "callerClass":"<string>"
-   },
-   {
-      "callee":"func1()",
-      "calleeClass":"main2.py",
-      "caller":"<module>",
-      "callerClass":"<string>"
-   },
-   {
-      "callee":"func2(x,*y,**z)",
-      "calleeClass":"main2.py",
-      "caller":"func1()",
-      "callerClass":"main2.py"
-   },
-   {
-      "callee":"func2(x,*y,**z)",
-      "calleeClass":"main2.py",
-      "caller":"<module>",
-      "callerClass":"<string>"
-   },
-   {
-      "callee":"func3(input)",
-      "calleeClass":"main2.py",
-      "caller":"<module>",
-      "callerClass":"<string>"
-   },
-   {
-      "callee":"morb(self)",
-      "calleeClass":"Classer",
-      "caller":"func3(input)",
-      "callerClass":"<string>"
-   },
-   {
-      "callee":"other(self,x)",
-      "calleeClass":"Classer",
-      "caller":"<module>",
-      "callerClass":"<string>"
-   }
-]
+# dynamic = [
+#    {
+#       "callee":"<module>",
+#       "calleeClass":"<string>",
+#       "caller":"<module>",
+#       "callerClass":"mainDynamic.py"
+#    },
+#    {
+#       "callee":"__init__(self)",
+#       "calleeClass":"Classer",
+#       "caller":"<module>",
+#       "callerClass":"<string>"
+#    },
+#    {
+#       "callee":"func1()",
+#       "calleeClass":"main2.py",
+#       "caller":"<module>",
+#       "callerClass":"<string>"
+#    },
+#    {
+#       "callee":"func2(x,*y,**z)",
+#       "calleeClass":"main2.py",
+#       "caller":"func1()",
+#       "callerClass":"main2.py"
+#    },
+#    {
+#       "callee":"func2(x,*y,**z)",
+#       "calleeClass":"main2.py",
+#       "caller":"<module>",
+#       "callerClass":"<string>"
+#    },
+#    {
+#       "callee":"func3(input)",
+#       "calleeClass":"main2.py",
+#       "caller":"<module>",
+#       "callerClass":"<string>"
+#    },
+#    {
+#       "callee":"morb(self)",
+#       "calleeClass":"Classer",
+#       "caller":"func3(input)",
+#       "callerClass":"<string>"
+#    },
+#    {
+#       "callee":"other(self,x)",
+#       "calleeClass":"Classer",
+#       "caller":"<module>",
+#       "callerClass":"<string>"
+#    }
+# ]
 
 
 def analyze(dynamic):
@@ -90,10 +90,14 @@ def analyze(dynamic):
             X[i][np.where(funcList == callerStr)] = 1
             y[i] = np.where(funcList == calleeStr)[0]
 
-    mat = np.c_[X,y]         
+    mat = np.c_[X,y]
+
 
 
     _, n = np.shape(mat)
+    
+    mark = np.identity(n-1)
+    #print(mark)
     links = []
     for i in range(n-1):
         ind = np.where(mat[:,i] == 1)
@@ -106,9 +110,24 @@ def analyze(dynamic):
                 link = {"source": callerstr[0], "target": callstr[0],
                         "calls": np.count_nonzero(calleeLinks == uniqueLink[j])}
                 links.append(link)
-
-    print(links)
-    print(nodes)
+    
+    for i in range(n-1):
+        ind = np.where(mat[:,i] == 1)
+        uniqueInd = np.unique(ind)
+        values = []
+        if(len(ind[0]) != 0):
+            mark[i,:] = np.zeros(n-1)
+            for j in range(len(ind)):
+                values.extend(mat[ind[j],n-1])
+            uniqueVal = np.unique(values)
+            for j in range(len(uniqueVal)):
+                mark[i,uniqueVal[j]] = np.count_nonzero(values == uniqueVal[j])/len(values)
+    #print(mark)
+    #print(links)
+    #print(nodes)
+    return mark, links, nodes
+    
+analyze(dynamic)
 
 
 
