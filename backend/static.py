@@ -101,12 +101,15 @@ def readRepo(repo):
 def createForceGraphStructure(): 
     nodes = []
     links = []
+    # A map where key is function id, and value is number of times it is called
+    countMap = {}
 
     for function in functionClassMap:
         nodeObj = {
         "id": function.get("className")+"."+function.get("functionName")+"("+', '.join(function.get("args"))+")",
         "name": function.get("functionName")+"("+', '.join(function.get("args"))+")",
         "class": function.get("className"),
+        "calls": 0
         }
         nodes.append(nodeObj)
 
@@ -119,6 +122,18 @@ def createForceGraphStructure():
                         "target": node.get("id")
                     }
                     links.append(linkObj)
+                    target = linkObj["target"]
+                    if countMap.get(target) != None:
+                        countMap[target] = countMap[target] + 1
+                    else:
+                        countMap[target] = 1
+    # Afterwards, iterate through the countMap keys and update call values in the graph
+    for key in countMap.keys():
+        for node in nodes:
+            if node["id"] == key:
+                node["calls"] = countMap.get(key)
+                break
+    
     staticGraph = {
         "nodes": nodes,
         "links": links
@@ -142,6 +157,3 @@ def execute(repo):
 #     jsonOutput = json.dumps(ret, indent=4)
 #     with open('../frontend/src/data/tempStatic.json', 'w+') as outfile:
 #         outfile.write(jsonOutput)
-
-if __name__ == "__main__":
-    main()
