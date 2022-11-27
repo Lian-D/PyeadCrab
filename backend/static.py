@@ -124,15 +124,24 @@ def createForceGraphStructure():
         "links": links
     }
     return staticGraph
-            
-def main():
-    args = sys.argv[1:]
-    readRepo(sys.argv[1])
+
+def execute(repo):
+    readRepo(repo)
     ret = createForceGraphStructure()
     print(ret)
     jsonOutput = json.dumps(ret, indent=4)
     with open('../frontend/src/data/tempStatic.json', 'w+') as outfile:
         outfile.write(jsonOutput)
+
+            
+# def main():
+#     args = sys.argv[1:]
+#     readRepo(sys.argv[1])
+#     ret = createForceGraphStructure()
+#     print(ret)
+#     jsonOutput = json.dumps(ret, indent=4)
+#     with open('../frontend/src/data/tempStatic.json', 'w+') as outfile:
+#         outfile.write(jsonOutput)
 
 if __name__ == "__main__":
     main()
