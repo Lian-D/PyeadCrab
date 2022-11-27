@@ -145,7 +145,7 @@ def execute(repo):
     ret = createForceGraphStructure()
     print(ret)
     jsonOutput = json.dumps(ret, indent=4)
-    with open('../frontend/src/data/tempStatic.json', 'w+') as outfile:
+    with open('../frontend/src/data/static.json', 'w+') as outfile:
         outfile.write(jsonOutput)
 
             

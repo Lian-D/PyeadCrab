@@ -81,5 +81,5 @@ def execute(targetPath, targetCmdArgs):
     sys.argv = finalTargetCmdArgs
     exec(open(targetPath).read(), globals(), globals())
     tracer.fillInEntry(targetEntryPoint)
-    with open('../frontend/src/data/tempDynamic.json', 'w+') as outfile:
+    with open('../frontend/src/data/dynamic.json', 'w+') as outfile:
         outfile.write(str(tracer.callTrace))
