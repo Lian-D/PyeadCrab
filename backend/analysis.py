@@ -120,10 +120,12 @@ def analyze(dynamic):
             uniqueLink = np.unique(calleeLinks)
             for j in range(len(uniqueLink)):
                 callstr = funcList[uniqueLink[j]].split("@")
+                value = np.count_nonzero(calleeLinks == uniqueLink[j])
                 link = {
                     "source": callerstr[1] + "." + callerstr[0], 
                     "target": callstr[1] + "." + callstr[0],
-                    "calls": np.count_nonzero(calleeLinks == uniqueLink[j])}
+                    "calls": value,
+                    "probability": value/len(calleeLinks)}
                 links.append(link)
     
     for i in range(n-1):
