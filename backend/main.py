@@ -8,5 +8,8 @@ def main():
         # static.readRepo(sys.argv[1])
         static.execute(sys.argv[2])
     elif (sys.argv[1] == "-d"):
-        dynamic.execute(sys.argv[2], sys.argv[3:])
+        targetRepoPath = sys.argv[2]
+        targetEntryPath = sys.argv[3]
+        targetCmdArgs = sys.argv[4:]
+        dynamic.execute(targetRepoPath,targetEntryPath,targetCmdArgs)
 main()
