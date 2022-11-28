@@ -36,50 +36,54 @@ const DetailsPanel = ({setStaticData, setDynamicData}) => {
 
   return (
     <div className="details-panel">
-      <div id="logo" >
-        <img id="pyeadCrab" src={logo} width="50vw" alt="logo" />
-        <h1>pyeadCrab</h1>
-      </div>
-      <br />
-      <hr />
-      <Form>
-        <div className="loader" >
-          <Button 
-            variant="primary"
-            onClick={handleUpdateClick}
-          >
-            Update
-          </Button>
+      <div className="header">
+        <div id="logo" >
+          <img id="pyeadCrab" src={logo} alt="logo" />
+          <h1>pyeadCrab</h1>
         </div>
-        <Form.Switch 
-          type="switch"
-          id="dynamic-graph-switch"
-          label="Show Dynamic Graph"
-          onChange={onToggleDynamic}
-        />
-        <Form.Switch 
-          type="switch"
-          id="simple-graph-switch"
-          label="Show Simplified Graph"
-          onChange={onToggleSimple}
-        />
-      </Form>
-      <hr />
-      {selectedNode && 
-        <p>
-          Function: {selectedNode.name} <br/>
-          Class: {selectedNode.class} <br/>
-          {isDynamic && <>Called: {selectedNode.calls ? selectedNode.calls + " times" : ""} <br/></>} 
-          Calls: <br/>
-          {getCallees()}
-        </p>
-      }
-      {selectedLink && 
-      <p>
-        Link: <br/>
-        Caller: {selectedLink.source.name} <br/>
-        Callee: {selectedLink.target.name} <br/>
-    </p>}
+        <hr />
+        <Form>
+          <div className="loader" >
+            <Button 
+              variant="primary"
+              onClick={handleUpdateClick}
+            >
+              Update
+            </Button>
+          </div>
+          <Form.Switch 
+            type="switch"
+            id="dynamic-graph-switch"
+            label="Show Dynamic Graph"
+            onChange={onToggleDynamic}
+          />
+          <Form.Switch 
+            type="switch"
+            id="simple-graph-switch"
+            label="Show Simplified Graph"
+            onChange={onToggleSimple}
+          />
+        </Form>
+        <hr />
+      </div>
+      <div className="field-info">
+        {selectedNode && 
+          <p>
+            Function: {selectedNode.name} <br/>
+            Class: {selectedNode.class} <br/>
+            {isDynamic && <>Called: {selectedNode.calls ? selectedNode.calls + " times" : ""} <br/></>} 
+            Calls: <br/>
+            {getCallees()} 
+          </p>
+        }
+        {selectedLink && 
+          <p>
+            Link: <br/>
+            Caller: {selectedLink.source.name} <br/>
+            Callee: {selectedLink.target.name} <br/>
+          </p>
+        }
+      </div>
     </div>
   );
 }

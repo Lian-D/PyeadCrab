@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ForceGraph2D from 'react-force-graph-2d';
+import {forceCollide} from "d3-force";
 import { useRecoilValue } from "recoil";
 import { heightState, highlightLinkState, toggleSimpleState, widthState } from "../data/recoil-state";
 
@@ -18,6 +19,7 @@ const StaticGraph = ({data, colours, handleLinkClick, handleNodeClick, drawText,
         .distance(() => minLinkLength);
         graphRef.current.d3Force("charge")
         .strength(-90);
+        graphRef.current.d3Force('collide', forceCollide(defaultNodeSize * 2));
     }, []);
 
     const drawNode = (node, ctx) => {
