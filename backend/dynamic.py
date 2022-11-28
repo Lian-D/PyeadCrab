@@ -64,13 +64,12 @@ def readRepo(repo):
             pass
 
 
-def execute(targetPath, targetCmdArgs):
+def execute(targetRepoPath, targetPath, targetCmdArgs):
     globals()["__name__"] = "__main__"
     # Get path from command line arguments and insert it into the system
-    dir_path = os.path.dirname(os.path.realpath(targetPath))
-    sys.path.insert(0, dir_path)
+    sys.path.insert(0, targetRepoPath)
     # Read the directory of the target program to produce map of user defined classes/modules and their functions
-    readRepo(dir_path + "\\")
+    readRepo(targetRepoPath)
     # Pass map to tracer script and start the tracing
     tracer.setGlobals(functionClassMap,classSet)
     tracer.start()
