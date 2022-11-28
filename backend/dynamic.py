@@ -3,6 +3,7 @@ import os
 import tracer
 import ast
 import analysis
+import json
 from pathlib import Path
 # Map of functions and their classes. Key is function name with arguments, value is list of classes/modules it belongs under
 functionClassMap = {}
@@ -81,6 +82,6 @@ def execute(targetRepoPath, targetPath, targetCmdArgs):
     sys.argv = finalTargetCmdArgs
     exec(open(targetPath).read(), globals(), globals())
     tracer.fillInEntry(targetEntryPoint)
-    analysis.analyze(str(tracer.callTrace))
+    ret = analysis.analyze(tracer.callTrace)
     with open('../frontend/src/data/dynamic.json', 'w+') as outfile:
-        outfile.write(str(tracer.callTrace))
+        outfile.write(json.dumps(ret))
