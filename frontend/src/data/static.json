@@ -1,517 +1,6 @@
 {
     "nodes": [
         {
-            "id": "Array2D.__init__(self, w, h, data)",
-            "name": "__init__",
-            "params": "self, w, h, data",
-            "class": "Array2D",
-            "calls": 10
-        },
-        {
-            "id": "Array2D._idx(self, x, y)",
-            "name": "_idx",
-            "params": "self, x, y",
-            "class": "Array2D",
-            "calls": 2
-        },
-        {
-            "id": "Array2D.__getitem__(self, x_y)",
-            "name": "__getitem__",
-            "params": "self, x_y",
-            "class": "Array2D",
-            "calls": 0
-        },
-        {
-            "id": "Array2D.__setitem__(self, x_y, val)",
-            "name": "__setitem__",
-            "params": "self, x_y, val",
-            "class": "Array2D",
-            "calls": 0
-        },
-        {
-            "id": "Array2D.__cmp__(self, other)",
-            "name": "__cmp__",
-            "params": "self, other",
-            "class": "Array2D",
-            "calls": 0
-        },
-        {
-            "id": "Array2D.setup(self, data)",
-            "name": "setup",
-            "params": "self, data",
-            "class": "Array2D",
-            "calls": 1
-        },
-        {
-            "id": "Array2D.indexes(self)",
-            "name": "indexes",
-            "params": "self",
-            "class": "Array2D",
-            "calls": 1
-        },
-        {
-            "id": "Array2D.copy_data_from(self, other)",
-            "name": "copy_data_from",
-            "params": "self, other",
-            "class": "Array2D",
-            "calls": 0
-        },
-        {
-            "id": "Random.__init__(self, seed)",
-            "name": "__init__",
-            "params": "self, seed",
-            "class": "Random",
-            "calls": 10
-        },
-        {
-            "id": "Random.initialize(self, seed)",
-            "name": "initialize",
-            "params": "self, seed",
-            "class": "Random",
-            "calls": 0
-        },
-        {
-            "id": "Random.nextDouble(self)",
-            "name": "nextDouble",
-            "params": "self",
-            "class": "Random",
-            "calls": 3
-        },
-        {
-            "id": "Random.RandomMatrix(self, a)",
-            "name": "RandomMatrix",
-            "params": "self, a",
-            "class": "Random",
-            "calls": 0
-        },
-        {
-            "id": "Random.RandomVector(self, n)",
-            "name": "RandomVector",
-            "params": "self, n",
-            "class": "Random",
-            "calls": 0
-        },
-        {
-            "id": "ArrayList.__init__(self, w, h, data)",
-            "name": "__init__",
-            "params": "self, w, h, data",
-            "class": "ArrayList",
-            "calls": 10
-        },
-        {
-            "id": "ArrayList.__getitem__(self, idx)",
-            "name": "__getitem__",
-            "params": "self, idx",
-            "class": "ArrayList",
-            "calls": 0
-        },
-        {
-            "id": "ArrayList.__setitem__(self, idx, val)",
-            "name": "__setitem__",
-            "params": "self, idx, val",
-            "class": "ArrayList",
-            "calls": 0
-        },
-        {
-            "id": "ArrayList.copy_data_from(self, other)",
-            "name": "copy_data_from",
-            "params": "self, other",
-            "class": "ArrayList",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.SOR_execute(omega, G, num_iterations)",
-            "name": "SOR_execute",
-            "params": "omega, G, num_iterations",
-            "class": "scimark.py",
-            "calls": 4
-        },
-        {
-            "id": "scimark.py.SparseCompRow_matmult(M, y, val, row, col, x, num_iterations)",
-            "name": "SparseCompRow_matmult",
-            "params": "M, y, val, row, col, x, num_iterations",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.MonteCarlo_integrate(Num_samples)",
-            "name": "MonteCarlo_integrate",
-            "params": "Num_samples",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.LU_factor(A, pivot)",
-            "name": "LU_factor",
-            "params": "A, pivot",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.int_log2(n)",
-            "name": "int_log2",
-            "params": "n",
-            "class": "scimark.py",
-            "calls": 2
-        },
-        {
-            "id": "scimark.py.FFT_num_flops(N)",
-            "name": "FFT_num_flops",
-            "params": "N",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.FFT_transform_internal(N, data, direction)",
-            "name": "FFT_transform_internal",
-            "params": "N, data, direction",
-            "class": "scimark.py",
-            "calls": 4
-        },
-        {
-            "id": "scimark.py.FFT_bitreverse(N, data)",
-            "name": "FFT_bitreverse",
-            "params": "N, data",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "scimark.py.FFT_transform(N, data)",
-            "name": "FFT_transform",
-            "params": "N, data",
-            "class": "scimark.py",
-            "calls": 2
-        },
-        {
-            "id": "scimark.py.FFT_inverse(N, data)",
-            "name": "FFT_inverse",
-            "params": "N, data",
-            "class": "scimark.py",
-            "calls": 0
-        },
-        {
-            "id": "Vector.__init__(self, initx, inity, initz)",
-            "name": "__init__",
-            "params": "self, initx, inity, initz",
-            "class": "Vector",
-            "calls": 10
-        },
-        {
-            "id": "Vector.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.__repr__(self)",
-            "name": "__repr__",
-            "params": "self",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.magnitude(self)",
-            "name": "magnitude",
-            "params": "self",
-            "class": "Vector",
-            "calls": 1
-        },
-        {
-            "id": "Vector.__add__(self, other)",
-            "name": "__add__",
-            "params": "self, other",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.__sub__(self, other)",
-            "name": "__sub__",
-            "params": "self, other",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.scale(self, factor)",
-            "name": "scale",
-            "params": "self, factor",
-            "class": "Vector",
-            "calls": 9
-        },
-        {
-            "id": "Vector.dot(self, other)",
-            "name": "dot",
-            "params": "self, other",
-            "class": "Vector",
-            "calls": 2
-        },
-        {
-            "id": "Vector.cross(self, other)",
-            "name": "cross",
-            "params": "self, other",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.normalized(self)",
-            "name": "normalized",
-            "params": "self",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.negated(self)",
-            "name": "negated",
-            "params": "self",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.__eq__(self, other)",
-            "name": "__eq__",
-            "params": "self, other",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.isVector(self)",
-            "name": "isVector",
-            "params": "self",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Vector.isPoint(self)",
-            "name": "isPoint",
-            "params": "self",
-            "class": "Vector",
-            "calls": 1
-        },
-        {
-            "id": "Vector.mustBeVector(self)",
-            "name": "mustBeVector",
-            "params": "self",
-            "class": "Vector",
-            "calls": 1
-        },
-        {
-            "id": "Vector.mustBePoint(self)",
-            "name": "mustBePoint",
-            "params": "self",
-            "class": "Vector",
-            "calls": 1
-        },
-        {
-            "id": "Vector.reflectThrough(self, normal)",
-            "name": "reflectThrough",
-            "params": "self, normal",
-            "class": "Vector",
-            "calls": 0
-        },
-        {
-            "id": "Point.__init__(self, initx, inity, initz)",
-            "name": "__init__",
-            "params": "self, initx, inity, initz",
-            "class": "Point",
-            "calls": 10
-        },
-        {
-            "id": "Point.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "Point",
-            "calls": 0
-        },
-        {
-            "id": "Point.__repr__(self)",
-            "name": "__repr__",
-            "params": "self",
-            "class": "Point",
-            "calls": 0
-        },
-        {
-            "id": "Point.__add__(self, other)",
-            "name": "__add__",
-            "params": "self, other",
-            "class": "Point",
-            "calls": 0
-        },
-        {
-            "id": "Point.__sub__(self, other)",
-            "name": "__sub__",
-            "params": "self, other",
-            "class": "Point",
-            "calls": 0
-        },
-        {
-            "id": "Point.isVector(self)",
-            "name": "isVector",
-            "params": "self",
-            "class": "Point",
-            "calls": 0
-        },
-        {
-            "id": "Point.isPoint(self)",
-            "name": "isPoint",
-            "params": "self",
-            "class": "Point",
-            "calls": 1
-        },
-        {
-            "id": "Point.mustBeVector(self)",
-            "name": "mustBeVector",
-            "params": "self",
-            "class": "Point",
-            "calls": 1
-        },
-        {
-            "id": "Point.mustBePoint(self)",
-            "name": "mustBePoint",
-            "params": "self",
-            "class": "Point",
-            "calls": 1
-        },
-        {
-            "id": "Sphere.__init__(self, centre, radius)",
-            "name": "__init__",
-            "params": "self, centre, radius",
-            "class": "Sphere",
-            "calls": 10
-        },
-        {
-            "id": "Sphere.__repr__(self)",
-            "name": "__repr__",
-            "params": "self",
-            "class": "Sphere",
-            "calls": 0
-        },
-        {
-            "id": "Sphere.intersectionTime(self, ray)",
-            "name": "intersectionTime",
-            "params": "self, ray",
-            "class": "Sphere",
-            "calls": 0
-        },
-        {
-            "id": "spectral-norm.py.eval_A(i, j)",
-            "name": "eval_A",
-            "params": "i, j",
-            "class": "spectral-norm.py",
-            "calls": 2
-        },
-        {
-            "id": "spectral-norm.py.eval_times_u(func, u)",
-            "name": "eval_times_u",
-            "params": "func, u",
-            "class": "spectral-norm.py",
-            "calls": 1
-        },
-        {
-            "id": "spectral-norm.py.eval_AtA_times_u(u)",
-            "name": "eval_AtA_times_u",
-            "params": "u",
-            "class": "spectral-norm.py",
-            "calls": 2
-        },
-        {
-            "id": "spectral-norm.py.part_A_times_u(i_u)",
-            "name": "part_A_times_u",
-            "params": "i_u",
-            "class": "spectral-norm.py",
-            "calls": 0
-        },
-        {
-            "id": "spectral-norm.py.part_At_times_u(i_u)",
-            "name": "part_At_times_u",
-            "params": "i_u",
-            "class": "spectral-norm.py",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__init__(self, x, y, z)",
-            "name": "__init__",
-            "params": "self, x, y, z",
-            "class": "GVector",
-            "calls": 10
-        },
-        {
-            "id": "GVector.Mag(self)",
-            "name": "Mag",
-            "params": "self",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.dist(self, other)",
-            "name": "dist",
-            "params": "self, other",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__add__(self, other)",
-            "name": "__add__",
-            "params": "self, other",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__sub__(self, other)",
-            "name": "__sub__",
-            "params": "self, other",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__mul__(self, other)",
-            "name": "__mul__",
-            "params": "self, other",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.linear_combination(self, other, l1, l2)",
-            "name": "linear_combination",
-            "params": "self, other, l1, l2",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "GVector.__repr__(self)",
-            "name": "__repr__",
-            "params": "self",
-            "class": "GVector",
-            "calls": 0
-        },
-        {
-            "id": "chaos.py.GetKnots(points, degree)",
-            "name": "GetKnots",
-            "params": "points, degree",
-            "class": "chaos.py",
-            "calls": 1
-        },
-        {
-            "id": "Spline.__init__(self, points, degree, knots)",
-            "name": "__init__",
-            "params": "self, points, degree, knots",
-            "class": "Spline",
-            "calls": 10
-        },
-        {
-            "id": "Spline.GetDomain(self)",
-            "name": "GetDomain",
-            "params": "self",
-            "class": "Spline",
-            "calls": 0
-        },
-        {
             "id": "Strength.__init__(self, strength, name)",
             "name": "__init__",
             "params": "self, strength, name",
@@ -955,170 +444,6 @@
     ],
     "links": [
         {
-            "source": "Array2D.__getitem__(self, x_y)",
-            "target": "Array2D._idx(self, x, y)"
-        },
-        {
-            "source": "Array2D.__setitem__(self, x_y, val)",
-            "target": "Array2D._idx(self, x, y)"
-        },
-        {
-            "source": "Random.RandomMatrix(self, a)",
-            "target": "Array2D.indexes(self)"
-        },
-        {
-            "source": "Random.RandomMatrix(self, a)",
-            "target": "Random.nextDouble(self)"
-        },
-        {
-            "source": "Random.RandomVector(self, n)",
-            "target": "Random.nextDouble(self)"
-        },
-        {
-            "source": "ArrayList.__init__(self, w, h, data)",
-            "target": "Array2D.setup(self, data)"
-        },
-        {
-            "source": "scimark.py.MonteCarlo_integrate(Num_samples)",
-            "target": "Random.nextDouble(self)"
-        },
-        {
-            "source": "scimark.py.FFT_num_flops(N)",
-            "target": "scimark.py.int_log2(n)"
-        },
-        {
-            "source": "scimark.py.FFT_transform_internal(N, data, direction)",
-            "target": "scimark.py.int_log2(n)"
-        },
-        {
-            "source": "scimark.py.FFT_transform(N, data)",
-            "target": "scimark.py.FFT_transform_internal(N, data, direction)"
-        },
-        {
-            "source": "scimark.py.FFT_transform(N, data)",
-            "target": "scimark.py.FFT_transform_internal(N, data, direction)"
-        },
-        {
-            "source": "scimark.py.FFT_transform(N, data)",
-            "target": "scimark.py.FFT_transform(N, data)"
-        },
-        {
-            "source": "scimark.py.FFT_inverse(N, data)",
-            "target": "scimark.py.FFT_transform_internal(N, data, direction)"
-        },
-        {
-            "source": "scimark.py.FFT_inverse(N, data)",
-            "target": "scimark.py.FFT_transform_internal(N, data, direction)"
-        },
-        {
-            "source": "scimark.py.FFT_inverse(N, data)",
-            "target": "scimark.py.FFT_transform(N, data)"
-        },
-        {
-            "source": "Vector.normalized(self)",
-            "target": "Vector.magnitude(self)"
-        },
-        {
-            "source": "Vector.normalized(self)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "Vector.negated(self)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "Vector.reflectThrough(self, normal)",
-            "target": "Vector.dot(self, other)"
-        },
-        {
-            "source": "Vector.reflectThrough(self, normal)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "Point.__add__(self, other)",
-            "target": "Vector.mustBeVector(self)"
-        },
-        {
-            "source": "Point.__add__(self, other)",
-            "target": "Point.mustBeVector(self)"
-        },
-        {
-            "source": "Point.__sub__(self, other)",
-            "target": "Vector.isPoint(self)"
-        },
-        {
-            "source": "Point.__sub__(self, other)",
-            "target": "Point.isPoint(self)"
-        },
-        {
-            "source": "Sphere.__init__(self, centre, radius)",
-            "target": "Vector.mustBePoint(self)"
-        },
-        {
-            "source": "Sphere.__init__(self, centre, radius)",
-            "target": "Point.mustBePoint(self)"
-        },
-        {
-            "source": "Sphere.intersectionTime(self, ray)",
-            "target": "Vector.dot(self, other)"
-        },
-        {
-            "source": "spectral-norm.py.eval_AtA_times_u(u)",
-            "target": "spectral-norm.py.eval_times_u(func, u)"
-        },
-        {
-            "source": "spectral-norm.py.part_A_times_u(i_u)",
-            "target": "spectral-norm.py.eval_A(i, j)"
-        },
-        {
-            "source": "spectral-norm.py.part_A_times_u(i_u)",
-            "target": "spectral-norm.py.eval_AtA_times_u(u)"
-        },
-        {
-            "source": "spectral-norm.py.part_At_times_u(i_u)",
-            "target": "spectral-norm.py.eval_A(i, j)"
-        },
-        {
-            "source": "spectral-norm.py.part_At_times_u(i_u)",
-            "target": "spectral-norm.py.eval_AtA_times_u(u)"
-        },
-        {
-            "source": "Spline.__init__(self, points, degree, knots)",
-            "target": "chaos.py.GetKnots(points, degree)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "Strength.__init__(self, strength, name)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
             "source": "Strength.__init__(self, strength, name)",
             "target": "Strength.__init__(self, strength, name)"
         },
@@ -1172,38 +497,6 @@
         },
         {
             "source": "Constraint.__init__(self, strength)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
-            "source": "Constraint.__init__(self, strength)",
             "target": "Strength.__init__(self, strength, name)"
         },
         {
@@ -1241,38 +534,6 @@
         {
             "source": "Constraint.__init__(self, strength)",
             "target": "Plan.__init__(self)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "UrnaryConstraint.__init__(self, v, strength)",
-            "target": "Spline.__init__(self, points, degree, knots)"
         },
         {
             "source": "UrnaryConstraint.__init__(self, v, strength)",
@@ -1384,38 +645,6 @@
         },
         {
             "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
-            "source": "StayConstraint.__init__(self, v, string)",
             "target": "Strength.__init__(self, strength, name)"
         },
         {
@@ -1456,38 +685,6 @@
         },
         {
             "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
-            "source": "EditConstraint.__init__(self, v, string)",
             "target": "Strength.__init__(self, strength, name)"
         },
         {
@@ -1525,38 +722,6 @@
         {
             "source": "EditConstraint.__init__(self, v, string)",
             "target": "Plan.__init__(self)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
-            "target": "Spline.__init__(self, points, degree, knots)"
         },
         {
             "source": "BinaryConstraint.__init__(self, v1, v2, strength)",
@@ -1688,10 +853,6 @@
         },
         {
             "source": "BinaryConstraint.recalculate(self)",
-            "target": "scimark.py.SOR_execute(omega, G, num_iterations)"
-        },
-        {
-            "source": "BinaryConstraint.recalculate(self)",
             "target": "StayConstraint.execute(self)"
         },
         {
@@ -1741,42 +902,6 @@
         {
             "source": "BinaryConstraint.inputs_known(self, mark)",
             "target": "ScaleConstraint.mark_inputs(self, mark)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
-            "target": "Spline.__init__(self, points, degree, knots)"
         },
         {
             "source": "ScaleConstraint.__init__(self, src, scale, offset, dest, strength)",
@@ -1832,10 +957,6 @@
         },
         {
             "source": "ScaleConstraint.add_to_graph(self)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "ScaleConstraint.add_to_graph(self)",
             "target": "Constraint.add_constraint(self)"
         },
         {
@@ -1861,10 +982,6 @@
         {
             "source": "ScaleConstraint.remove_from_graph(self)",
             "target": "ScaleConstraint.remove_from_graph(self)"
-        },
-        {
-            "source": "ScaleConstraint.remove_from_graph(self)",
-            "target": "Vector.scale(self, factor)"
         },
         {
             "source": "ScaleConstraint.mark_inputs(self, mark)",
@@ -1909,14 +1026,6 @@
         {
             "source": "ScaleConstraint.mark_inputs(self, mark)",
             "target": "ScaleConstraint.mark_inputs(self, mark)"
-        },
-        {
-            "source": "ScaleConstraint.mark_inputs(self, mark)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "ScaleConstraint.execute(self)",
-            "target": "Vector.scale(self, factor)"
         },
         {
             "source": "ScaleConstraint.recalculate(self)",
@@ -1961,14 +1070,6 @@
         {
             "source": "ScaleConstraint.recalculate(self)",
             "target": "Strength.weakest_of(cls, s1, s2)"
-        },
-        {
-            "source": "ScaleConstraint.recalculate(self)",
-            "target": "Vector.scale(self, factor)"
-        },
-        {
-            "source": "ScaleConstraint.recalculate(self)",
-            "target": "scimark.py.SOR_execute(omega, G, num_iterations)"
         },
         {
             "source": "ScaleConstraint.recalculate(self)",
@@ -2032,38 +1133,6 @@
         },
         {
             "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
-            "source": "Variable.__init__(self, name, initial_value)",
             "target": "Strength.__init__(self, strength, name)"
         },
         {
@@ -2101,38 +1170,6 @@
         {
             "source": "Variable.__init__(self, name, initial_value)",
             "target": "Plan.__init__(self)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "Planner.__init__(self)",
-            "target": "Spline.__init__(self, points, degree, knots)"
         },
         {
             "source": "Planner.__init__(self)",
@@ -2420,38 +1457,6 @@
         },
         {
             "source": "Plan.__init__(self)",
-            "target": "Array2D.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "Random.__init__(self, seed)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "ArrayList.__init__(self, w, h, data)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "Vector.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "Point.__init__(self, initx, inity, initz)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "Sphere.__init__(self, centre, radius)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "GVector.__init__(self, x, y, z)"
-        },
-        {
-            "source": "Plan.__init__(self)",
-            "target": "Spline.__init__(self, points, degree, knots)"
-        },
-        {
-            "source": "Plan.__init__(self)",
             "target": "Strength.__init__(self, strength, name)"
         },
         {
@@ -2492,10 +1497,6 @@
         },
         {
             "source": "Plan.execute(self)",
-            "target": "scimark.py.SOR_execute(omega, G, num_iterations)"
-        },
-        {
-            "source": "Plan.execute(self)",
             "target": "StayConstraint.execute(self)"
         },
         {
@@ -2517,10 +1518,6 @@
         {
             "source": "deltablue.py.chain_test(n)",
             "target": "Planner.extract_plan_from_constraints(self, constraints)"
-        },
-        {
-            "source": "deltablue.py.chain_test(n)",
-            "target": "scimark.py.SOR_execute(omega, G, num_iterations)"
         },
         {
             "source": "deltablue.py.chain_test(n)",
