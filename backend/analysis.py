@@ -1,71 +1,20 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-
-# First convert the function calls into one-hot-encoding
-
-# dynamic = [
-#    {
-#       "callee":"<module>",
-#       "calleeClass":"<string>",
-#       "caller":"<module>",
-#       "callerClass":"mainDynamic.py"
-#    },
-#    {
-#       "callee":"__init__(self)",
-#       "calleeClass":"Classer",
-#       "caller":"<module>",
-#       "callerClass":"<string>"
-#    },
-#    {
-#       "callee":"func1()",
-#       "calleeClass":"main2.py",
-#       "caller":"<module>",
-#       "callerClass":"<string>"
-#    },
-#    {
-#       "callee":"func2(x,*y,**z)",
-#       "calleeClass":"main2.py",
-#       "caller":"func1()",
-#       "callerClass":"main2.py"
-#    },
-#    {
-#       "callee":"func2(x,*y,**z)",
-#       "calleeClass":"main2.py",
-#       "caller":"<module>",
-#       "callerClass":"<string>"
-#    },
-#    {
-#       "callee":"func3(input)",
-#       "calleeClass":"main2.py",
-#       "caller":"<module>",
-#       "callerClass":"<string>"
-#    },
-#    {
-#       "callee":"morb(self)",
-#       "calleeClass":"Classer",
-#       "caller":"func3(input)",
-#       "callerClass":"<string>"
-#    },
-#    {
-#       "callee":"other(self,x)",
-#       "calleeClass":"Classer",
-#       "caller":"<module>",
-#       "callerClass":"<string>"
-#    }
-# ]
-
+from tqdm import tqdm
+import time
 
 def analyze(dynamic):
     calleeList = []
     callList = []
-    # print(dynamic)
 
     nodes = []
     modAdd = 0
-
-    for i in dynamic:
-        # print(i)
+    print("analyzing program: ")
+    pbar = tqdm(dynamic)
+    pbar.set_description("analyzing dynamic execution")
+    for i in pbar:
+        time.sleep(1/len(pbar))
         calleeStr = i.get("callee") + "@" + i.get("calleeClass")
         callerStr = i.get("caller") + "@" + i.get("callerClass")
         if(modAdd == 0):
@@ -73,7 +22,7 @@ def analyze(dynamic):
                 node = {"id": i.get("callerClass") + '.' + i.get("caller") , 
                         "class": i.get("callerClass"),
                         "name": "",
-                        "params": [],
+                        "params": ', '.join([]),
                         "calls": 1}
                 nodes.append(node)
                 modAdd = 1
@@ -120,7 +69,6 @@ def analyze(dynamic):
     _, n = np.shape(mat)
     
     mark = np.identity(n-1)
-    #print(mark)
     links = []
     for i in range(n-1):
         ind = np.where(mat[:,i] == 1)
@@ -149,9 +97,40 @@ def analyze(dynamic):
             uniqueVal = np.unique(values)
             for j in range(len(uniqueVal)):
                 mark[i,uniqueVal[j]] = np.count_nonzero(values == uniqueVal[j])/len(values)
-    # print(mark)
-    # print(links)
-    # print(nodes)
+
+    validFunction = []
+    for node in nodes:
+        validFunction.append(node.get("id"))
+    for link in links:
+        if (link.get("source") not in validFunction):
+            ghost = link.get("source")
+            validFunction.append(ghost)
+            ghostClass = ghost.split('.')[0]
+            ghostName = ghost.split('.')[1].split('(')[0]
+            ghostParams = ghost.split('(')[1].split(')')[0]
+            nodeObj = {
+                'id': ghost,
+                'class': ghostClass,
+                'name': ghostName,
+                'params': ghostParams,
+                'calls': 1
+            }
+            nodes.append(nodeObj)
+        if (link.get("target") not in validFunction):
+            ghost = link.get("target")
+            validFunction.append(ghost)
+            ghostClass = ghost.split('.')[0]
+            ghostName = ghost.split('.')[1].split('(')[0]
+            ghostParams = ghost.split('(')[1].split(')')[0]
+            nodeObj = {
+                'id': ghost,
+                'class': ghostClass,
+                'name': ghostName,
+                'params': ghostParams,
+                'calls': 1
+            }
+            nodes.append(nodeObj)
+
     returnObj = {
         "nodes": nodes,
         "links": links,

@@ -50,7 +50,6 @@ def iterateClass(classAst):
 def readRepo(repo):
     # Open the module with the trace function and retrieve its AST
     directoryArr = os.listdir(repo)
-    
     for fileName in directoryArr:
         try:
             file = repo+fileName
@@ -84,4 +83,4 @@ def execute(targetRepoPath, targetPath, targetCmdArgs):
     tracer.fillInEntry(targetEntryPoint)
     ret = analysis.analyze(tracer.callTrace)
     with open('../frontend/src/data/dynamic.json', 'w+') as outfile:
-        outfile.write(json.dumps(ret))
+        outfile.write(json.dumps(ret, indent=4))
