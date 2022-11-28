@@ -5,7 +5,7 @@ import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { highlightLinkState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState } from "../data/recoil-state";
 
 const DetailsPanel = ({setStaticData, setDynamicData}) => {
-  const logo = require("../data/pyeadCrab.png");
+  const logo = require("../data/pyeadCrab2.png");
   const selectedNode = useRecoilValue(selectedNodeState);
   const selectedLink = useRecoilValue(selectedLinkState);
   const selectedLinks = useRecoilValue(highlightLinkState);
