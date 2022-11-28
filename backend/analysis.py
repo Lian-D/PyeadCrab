@@ -61,10 +61,22 @@ def analyze(dynamic):
     callList = []
     # print(dynamic)
 
+    nodes = []
+    modAdd = 0
+
     for i in dynamic:
         # print(i)
         calleeStr = i.get("callee") + "@" + i.get("calleeClass")
         callerStr = i.get("caller") + "@" + i.get("callerClass")
+        if(modAdd == 0):
+            if(i.get("caller") == "<module>"):               
+                node = {"id": i.get("callerClass") + '.' + i.get("caller") , 
+                        "class": i.get("callerClass"),
+                        "name": "",
+                        "params": [],
+                        "calls": 1}
+                nodes.append(node)
+                modAdd = 1
         calleeList.append(calleeStr)
         callList.append(calleeStr)
         callList.append(callerStr)
@@ -75,8 +87,6 @@ def analyze(dynamic):
     X = np.zeros((len(dynamic),len(funcList)), dtype = int)
     dynlen = len(dynamic)
     y = np.zeros(len(dynamic), dtype = int)
-
-    nodes = []
 
     for i in range(len(calleeUni)):
         name = calleeUni[i].split("@")
