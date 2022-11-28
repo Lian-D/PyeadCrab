@@ -3,7 +3,6 @@ import os
 import ast
 import json
 from tqdm import tqdm
-import time
 
 # This is a function class map we use to confirm our data
 functionClassMap = []
@@ -82,11 +81,10 @@ def iterateClass(classAst):
 def readRepo(repo):
     # Open the module with the trace function and retrieve its AST
     directoryArr = os.listdir(repo)
-    pbar = tqdm(directoryArr)
-    pbar.set_description("processing static files")
+    # pbar = tqdm(directoryArr)
+    # pbar.set_description("processing static files")
 
-    for fileName in pbar:
-        time.sleep(1/len(pbar))
+    for fileName in directoryArr:
         try:
             file = repo+fileName
             tracerFile = open(file,'r').read()

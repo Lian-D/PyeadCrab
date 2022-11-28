@@ -1,8 +1,7 @@
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
-from tqdm import tqdm
-import time
+# from tqdm import tqdm
 
 def analyze(dynamic):
     calleeList = []
@@ -10,11 +9,9 @@ def analyze(dynamic):
 
     nodes = []
     modAdd = 0
-    print("analyzing program: ")
-    pbar = tqdm(dynamic)
-    pbar.set_description("analyzing dynamic execution")
-    for i in pbar:
-        time.sleep(1/len(pbar))
+    # pbar = tqdm(dynamic)
+    # pbar.set_description("analyzing dynamic execution")
+    for i in dynamic:
         calleeStr = i.get("callee") + "@" + i.get("calleeClass")
         callerStr = i.get("caller") + "@" + i.get("callerClass")
         if(modAdd == 0):
