@@ -2,7 +2,7 @@ import sys
 import os
 import ast
 import json
-from tqdm import tqdm
+# from tqdm import tqdm
 
 # This is a function class map we use to confirm our data
 functionClassMap = []
