@@ -18,4 +18,4 @@ If set up succeeds, please follow the guide below to run your program.
 5. Return to the front end web page and press the update button
 6. If you need to run some samples please refer to our [link](running_samples.md) <br> <br>
 
- ** Note ** The more complex or computationally heavy your program is, the longer the analysis will take to run.
+ **Note** The more complex or computationally heavy your program is, the longer the analysis will take to run.
