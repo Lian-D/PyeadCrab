@@ -77,11 +77,11 @@ const GraphPanel = ({staticData, dynamicData}) => {
         l = Math.min(l, 90); 
         colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
       });
-      
+
       return colourMapping;
     };
 
-    let classes = [...new Set(staticData.nodes.map(n => n.class))];
+    let classes = [...new Set(staticData.nodes.map(n => n.class).concat(dynamicData.nodes.map(n => n.class)))];
     setColours(getColor(classes));
   }, [staticData]);
 
