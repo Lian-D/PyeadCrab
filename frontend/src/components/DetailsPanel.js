@@ -1,6 +1,7 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 import Form from 'react-bootstrap/Form';
+import Table from 'react-bootstrap/Table';
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { highlightLinkState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState } from "../data/recoil-state";
 
@@ -29,10 +30,6 @@ const DetailsPanel = ({setStaticData, setDynamicData}) => {
     setStaticData(staticData);
     setDynamicData(dynamicData);
   }
-
-  const getCallees = () => {
-    return <ul>{[...selectedLinks].map((link, i) => <li key={i}>{link.target.id}</li>)}</ul>;
-  };
 
   return (
     <div className="details-panel">
@@ -68,19 +65,45 @@ const DetailsPanel = ({setStaticData, setDynamicData}) => {
       </div>
       <div className="field-info">
         {selectedNode && 
-          <p>
-            Function: {selectedNode.name} <br/>
-            Class: {selectedNode.class} <br/>
-            {isDynamic && <>Called: {selectedNode.calls ? selectedNode.calls + " times" : ""} <br/></>} 
-            Calls: <br/>
-            {getCallees()} 
-          </p>
+          <>
+            <p>
+              Function: {selectedNode.name} <br/>
+              Class: {selectedNode.class} <br/>
+              Parameters: {selectedNode.params} <br/>
+              {isDynamic && 
+                <>
+                Called: {selectedNode.calls ? selectedNode.calls + " times" : ""} <br/>
+                Next calls prediction: 
+                </>
+              } 
+            </p>
+            {(isDynamic && selectedLinks.size !== 0) &&
+              <Table striped bordered size="sm" variant="dark">
+                <thead>
+                  <tr>
+                    <th>Probability</th>
+                    <th>Function</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {[...selectedLinks].map((link, i) => {
+                    let row = <tr key={i}>
+                                <td>{link.probability.toFixed(5)}</td>
+                                <td>{`${link.target.class}.${link.target.name}`}</td>
+                              </tr>;
+                    return row;
+                  })}
+                </tbody>
+              </Table>
+            }
+          </>
         }
         {selectedLink && 
           <p>
             Link: <br/>
             Caller: {selectedLink.source.name} <br/>
             Callee: {selectedLink.target.name} <br/>
+            Probability: {selectedLink.probability.toFixed(5)} <br/>
           </p>
         }
       </div>
