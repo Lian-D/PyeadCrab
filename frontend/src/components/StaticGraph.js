@@ -16,7 +16,7 @@ const StaticGraph = ({data, handleLinkClick, handleNodeClick, drawNode, nodePoin
 
     useEffect(() => {
         graphRef.current.d3Force('link').distance(() => minLinkLength);
-        graphRef.current.d3Force('collide', forceCollide(minNodeRadius + maxNodeRadius / 1.5));
+        graphRef.current.d3Force('collide', forceCollide(minNodeRadius + maxNodeRadius));
     }, []);
 
     return (
