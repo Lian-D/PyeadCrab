@@ -44,7 +44,7 @@ def analyze(dynamic):
         if (args == ['']):
             args = []
         node = {
-            "id": name[1]+'.'+name[0], 
+            "id": name[1]+'.'+ spaceCalls(name[0]), 
             "class": name[1],
             "name": funcName,
             "params": ', '.join(args),
@@ -77,8 +77,8 @@ def analyze(dynamic):
                 callstr = funcList[uniqueLink[j]].split("@")
                 value = np.count_nonzero(calleeLinks == uniqueLink[j])
                 link = {
-                    "source": callerstr[1] + "." + callerstr[0], 
-                    "target": callstr[1] + "." + callstr[0],
+                    "source": callerstr[1] + "." + spaceCalls(callerstr[0]), 
+                    "target": callstr[1] + "." + spaceCalls(callstr[0]),
                     "calls": value,
                     "probability": value/len(calleeLinks)}
                 links.append(link)
@@ -133,7 +133,17 @@ def analyze(dynamic):
         "links": links,
     }
     return returnObj
-    
+
+def spaceCalls(space):
+    listString = []
+    for i in range(len(space)):
+        charToAdd = space[i]
+        if(space[i] == ','):
+            charToAdd = space[i] + ' '
+        listString.append(charToAdd)
+    listString = ''.join(listString)
+    return str(listString)
+  
 # analyze(dynamic)
 
 
