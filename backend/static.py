@@ -113,7 +113,7 @@ def createForceGraphStructure():
         "name": function.get("functionName"),
         "params": ', '.join(function.get("args")),
         "class": function.get("className"),
-        "calls": 0
+        "calls": 1
         }
         nodes.append(nodeObj)
 
