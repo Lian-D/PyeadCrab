@@ -1,27 +1,36 @@
-# Project2Group8
+# PyeadCrab (Project2Group8)
+![](frontend/src/data/pyeadCrab2.png)
+
+PyeadCrab is a code analysis tool designed to do static and dynamic analysis on python repo projects. It focuses on identifying potential areas of interlinked code in addition to applying markov models to dynamically predicted likelihood of calls.
+
+For reference to class based milestones [this file](milestones.md)
 
 ---
-# Setup
+## Setup
+### Backend
+1. make sure `python` > 3 is installed 
+2. `cd backend`
+3. `pip -r install requirements.txt`
+4. refer to [this file](backend/readme.md) for how to run on repos
 
-## Backend
-
-Install Python here: https://www.python.org/downloads/. When installing Python, make sure it is added to PATH variables <br>
-
-This project uses the Flask framework. Here's how to use it: <br>
-1. After Python has been installed, go to the backend directory in the command prompt<br>
-2. Flask recommends using a virtual environment to ensure that libraries that use different python versions do not conflict <br>
-3. To create the virtual environment, go to the command prompt and enter this: `py -3 -m venv venv` for Windows, and `python3 -m venv venv` for Mac/Linux <br>
-4. Activate the virtual environment by entering this in the command prompt: `venv\Scripts\activate` for Windows, and `. venv/bin/activate` for Mac/Linux <br>
-5. Install Flask in the virtual environment with `pip install Flask`
-6. Navigate to the server directory in the backend directory, and enter this to start the server: `Flask -app server run`
-
-## Frontend
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-1. Go to the frontend directory with `cd frontend` 
-2. Run `npm install` 
-3. Start the app at [http://localhost:3000](http://localhost:3000), with `npm start`.
-4. Make sure the files you want to analyze are in the drop off folder and click the Start button
+### Frontend
+1. make sure you have npm installed
+2. `cd frontend`
+3. `npm install`
+4. `npm start`
 
 ---
+## Sampple Results
+The following is the static and dynamic renders of `samplecode/selected_benchmarks/deltablue` from the command executed in `/backend/` 
+
+`python main.py -d '../samplecode/deltablue/' '../samplecode/deltablue/deltablue.py'` 
+
+and 
+
+`python main.py -s '../samplecode/deltablue/'`
+
+Static Analysis
+![](docs/resources/static.png)
+Dynamic Analysis
+![](docs/resources/dynamic.png)
+
