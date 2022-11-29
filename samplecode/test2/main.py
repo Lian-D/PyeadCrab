@@ -6,7 +6,7 @@ def func1(N):
     for i in range(N):
         print("Hello!")
         c2 = t2.testDep2()
-        c2.func1()
+        c2.func1(1)
         
 
 def func2(N):
@@ -38,8 +38,7 @@ class myClass:
 
 c1 = myClass("funny")
 c2 = t2.testDep2()
-c2.gamer()
+c2.gamer(1)
 
-c1.func5()
 func2(500)
 func1(100)
