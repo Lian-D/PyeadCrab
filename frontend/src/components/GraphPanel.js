@@ -87,7 +87,7 @@ const GraphPanel = ({staticData, dynamicData}) => {
 
   useEffect(() => {
     const changeSize = () => {
-      setWidth(window.innerWidth * 0.8);
+      setWidth(window.innerWidth * 0.75);
       setHeight(window.innerHeight);
     }
   
