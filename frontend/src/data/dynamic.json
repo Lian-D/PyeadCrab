@@ -1,66 +1,276 @@
 {
     "nodes": [
         {
-            "id": "SiteInformation.__init__(self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information)",
-            "class": "SiteInformation",
+            "id": "chaos.py.<module>",
+            "class": "chaos.py",
+            "name": "",
+            "params": "",
+            "calls": 1
+        },
+        {
+            "id": "Spline.GetDomain(self)",
+            "class": "Spline",
+            "name": "GetDomain",
+            "params": "self",
+            "calls": 30995
+        },
+        {
+            "id": "Spline.GetIndex(self, u)",
+            "class": "Spline",
+            "name": "GetIndex",
+            "params": "self, u",
+            "calls": 12995
+        },
+        {
+            "id": "GVector.Mag(self)",
+            "class": "GVector",
+            "name": "Mag",
+            "params": "self",
+            "calls": 15000
+        },
+        {
+            "id": "GVector.__add__(self, other)",
+            "class": "GVector",
+            "name": "__add__",
+            "params": "self, other",
+            "calls": 5000
+        },
+        {
+            "id": "Spline.__call__(self, u)",
+            "class": "Spline",
+            "name": "__call__",
+            "params": "self, u",
+            "calls": 13000
+        },
+        {
+            "id": "Spline.__init__(self, points, degree, knots)",
+            "class": "Spline",
             "name": "__init__",
-            "params": "self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information",
-            "calls": 1260
+            "params": "self, points, degree, knots",
+            "calls": 3
         },
         {
-            "id": "QueryNotifyPrint.__init__(self, result)",
-            "class": "QueryNotifyPrint",
+            "id": "Chaosgame.__init__(self, splines, thickness)",
+            "class": "Chaosgame",
             "name": "__init__",
-            "params": "self, result",
+            "params": "self, splines, thickness",
             "calls": 1
         },
         {
-            "id": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "class": "QueryNotifyPrint",
-            "name": "get_additional_data_text",
-            "params": "self, items, prepend",
-            "calls": 1
-        },
-        {
-            "id": "SitesInformation.__init__(self, data_file_path)",
-            "class": "SitesInformation",
+            "id": "GVector.__init__(self, x, y, z)",
+            "class": "GVector",
             "name": "__init__",
-            "params": "self, data_file_path",
+            "params": "self, x, y, z",
+            "calls": 87986
+        },
+        {
+            "id": "GVector.__mul__(self, other)",
+            "class": "GVector",
+            "name": "__mul__",
+            "params": "self, other",
+            "calls": 5000
+        },
+        {
+            "id": "GVector.__sub__(self, other)",
+            "class": "GVector",
+            "name": "__sub__",
+            "params": "self, other",
+            "calls": 5000
+        },
+        {
+            "id": "Chaosgame.create_image_chaos(self, w, h, name, n)",
+            "class": "Chaosgame",
+            "name": "create_image_chaos",
+            "params": "self, w, h, name, n",
             "calls": 1
         },
         {
-            "id": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "class": "QueryNotifyPrint",
-            "name": "__init__",
-            "params": "self, result, verbose, print_found_only, skip_check_errors, color",
+            "id": "GVector.dist(self, other)",
+            "class": "GVector",
+            "name": "dist",
+            "params": "self, other",
+            "calls": 2997
+        },
+        {
+            "id": "Chaosgame.get_random_trafo(self)",
+            "class": "Chaosgame",
+            "name": "get_random_trafo",
+            "params": "self",
+            "calls": 5000
+        },
+        {
+            "id": "GVector.linear_combination(self, other, l1, l2)",
+            "class": "GVector",
+            "name": "linear_combination",
+            "params": "self, other, l1, l2",
+            "calls": 77970
+        },
+        {
+            "id": "chaos.py.save_im(im, fn)",
+            "class": "chaos.py",
+            "name": "save_im",
+            "params": "im, fn",
             "calls": 1
         },
         {
-            "id": "QueryNotifyPrint.update(self, result)",
-            "class": "QueryNotifyPrint",
-            "name": "update",
-            "params": "self, result",
-            "calls": 1
+            "id": "Chaosgame.transform_point(self, point, trafo)",
+            "class": "Chaosgame",
+            "name": "transform_point",
+            "params": "self, point, trafo",
+            "calls": 5000
+        },
+        {
+            "id": "Chaosgame.truncate(self, point)",
+            "class": "Chaosgame",
+            "name": "truncate",
+            "params": "self, point",
+            "calls": 5000
         }
     ],
     "links": [
         {
-            "source": "SitesInformation.__init__(self, data_file_path)",
-            "target": "SiteInformation.__init__(self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information)",
-            "calls": 1260,
+            "source": "chaos.py.<module>",
+            "target": "Spline.__init__(self, points, degree, knots)",
+            "calls": 3,
+            "probability": 0.15
+        },
+        {
+            "source": "chaos.py.<module>",
+            "target": "Chaosgame.__init__(self, splines, thickness)",
+            "calls": 1,
+            "probability": 0.05
+        },
+        {
+            "source": "chaos.py.<module>",
+            "target": "GVector.__init__(self, x, y, z)",
+            "calls": 15,
+            "probability": 0.75
+        },
+        {
+            "source": "chaos.py.<module>",
+            "target": "Chaosgame.create_image_chaos(self, w, h, name, n)",
+            "calls": 1,
+            "probability": 0.05
+        },
+        {
+            "source": "Spline.GetIndex(self, u)",
+            "target": "Spline.GetDomain(self)",
+            "calls": 12995,
             "probability": 1.0
         },
         {
-            "source": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "target": "QueryNotifyPrint.__init__(self, result)",
-            "calls": 1,
+            "source": "GVector.__add__(self, other)",
+            "target": "GVector.__init__(self, x, y, z)",
+            "calls": 5000,
             "probability": 1.0
         },
         {
-            "source": "QueryNotifyPrint.update(self, result)",
-            "target": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "calls": 1,
+            "source": "Spline.__call__(self, u)",
+            "target": "Spline.GetDomain(self)",
+            "calls": 13000,
+            "probability": 0.1250420814697254
+        },
+        {
+            "source": "Spline.__call__(self, u)",
+            "target": "Spline.GetIndex(self, u)",
+            "calls": 12995,
+            "probability": 0.1249939883614678
+        },
+        {
+            "source": "Spline.__call__(self, u)",
+            "target": "GVector.linear_combination(self, other, l1, l2)",
+            "calls": 77970,
+            "probability": 0.7499639301688068
+        },
+        {
+            "source": "Chaosgame.__init__(self, splines, thickness)",
+            "target": "Spline.__call__(self, u)",
+            "calls": 3000,
+            "probability": 0.5002501250625313
+        },
+        {
+            "source": "Chaosgame.__init__(self, splines, thickness)",
+            "target": "GVector.dist(self, other)",
+            "calls": 2997,
+            "probability": 0.49974987493746875
+        },
+        {
+            "source": "GVector.__mul__(self, other)",
+            "target": "GVector.__init__(self, x, y, z)",
+            "calls": 5000,
             "probability": 1.0
+        },
+        {
+            "source": "GVector.__sub__(self, other)",
+            "target": "GVector.__add__(self, other)",
+            "calls": 5000,
+            "probability": 0.5
+        },
+        {
+            "source": "GVector.__sub__(self, other)",
+            "target": "GVector.__mul__(self, other)",
+            "calls": 5000,
+            "probability": 0.5
+        },
+        {
+            "source": "Chaosgame.create_image_chaos(self, w, h, name, n)",
+            "target": "GVector.__init__(self, x, y, z)",
+            "calls": 1,
+            "probability": 0.00019992003198720512
+        },
+        {
+            "source": "Chaosgame.create_image_chaos(self, w, h, name, n)",
+            "target": "chaos.py.save_im(im, fn)",
+            "calls": 1,
+            "probability": 0.00019992003198720512
+        },
+        {
+            "source": "Chaosgame.create_image_chaos(self, w, h, name, n)",
+            "target": "Chaosgame.transform_point(self, point, trafo)",
+            "calls": 5000,
+            "probability": 0.9996001599360256
+        },
+        {
+            "source": "GVector.linear_combination(self, other, l1, l2)",
+            "target": "GVector.__init__(self, x, y, z)",
+            "calls": 77970,
+            "probability": 1.0
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "Spline.GetDomain(self)",
+            "calls": 5000,
+            "probability": 0.1111111111111111
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "GVector.Mag(self)",
+            "calls": 15000,
+            "probability": 0.3333333333333333
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "Spline.__call__(self, u)",
+            "calls": 10000,
+            "probability": 0.2222222222222222
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "GVector.__sub__(self, other)",
+            "calls": 5000,
+            "probability": 0.1111111111111111
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "Chaosgame.get_random_trafo(self)",
+            "calls": 5000,
+            "probability": 0.1111111111111111
+        },
+        {
+            "source": "Chaosgame.transform_point(self, point, trafo)",
+            "target": "Chaosgame.truncate(self, point)",
+            "calls": 5000,
+            "probability": 0.1111111111111111
         }
     ]
 }

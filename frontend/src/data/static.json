@@ -1,143 +1,94 @@
 {
     "nodes": [
         {
-            "id": "SiteInformation.__init__(self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information)",
+            "id": "GVector.__init__(self, x, y, z)",
             "name": "__init__",
-            "params": "self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information",
-            "class": "SiteInformation",
+            "params": "self, x, y, z",
+            "class": "GVector",
             "calls": 1
         },
         {
-            "id": "SiteInformation.__str__(self)",
-            "name": "__str__",
+            "id": "GVector.Mag(self)",
+            "name": "Mag",
             "params": "self",
-            "class": "SiteInformation",
-            "calls": 0
+            "class": "GVector",
+            "calls": 1
         },
         {
-            "id": "QueryNotify.__init__(self, result)",
+            "id": "GVector.dist(self, other)",
+            "name": "dist",
+            "params": "self, other",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.__add__(self, other)",
+            "name": "__add__",
+            "params": "self, other",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.__sub__(self, other)",
+            "name": "__sub__",
+            "params": "self, other",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.__mul__(self, other)",
+            "name": "__mul__",
+            "params": "self, other",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.linear_combination(self, other, l1, l2)",
+            "name": "linear_combination",
+            "params": "self, other, l1, l2",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.__str__(self)",
+            "name": "__str__",
+            "params": "self",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "GVector.__repr__(self)",
+            "name": "__repr__",
+            "params": "self",
+            "class": "GVector",
+            "calls": 1
+        },
+        {
+            "id": "chaos.py.GetKnots(points, degree)",
+            "name": "GetKnots",
+            "params": "points, degree",
+            "class": "chaos.py",
+            "calls": 1
+        },
+        {
+            "id": "Spline.__init__(self, points, degree, knots)",
             "name": "__init__",
-            "params": "self, result",
-            "class": "QueryNotify",
+            "params": "self, points, degree, knots",
+            "class": "Spline",
             "calls": 1
         },
         {
-            "id": "QueryNotify.start(self, message, id_type)",
-            "name": "start",
-            "params": "self, message, id_type",
-            "class": "QueryNotify",
-            "calls": 1
-        },
-        {
-            "id": "QueryNotify.update(self, result)",
-            "name": "update",
-            "params": "self, result",
-            "class": "QueryNotify",
-            "calls": 0
-        },
-        {
-            "id": "QueryNotify.finish(self, message)",
-            "name": "finish",
-            "params": "self, message",
-            "class": "QueryNotify",
-            "calls": 0
-        },
-        {
-            "id": "QueryNotify.__str__(self)",
-            "name": "__str__",
+            "id": "Spline.GetDomain(self)",
+            "name": "GetDomain",
             "params": "self",
-            "class": "QueryNotify",
-            "calls": 0
-        },
-        {
-            "id": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "name": "__init__",
-            "params": "self, result, verbose, print_found_only, skip_check_errors, color",
-            "class": "QueryNotifyPrint",
+            "class": "Spline",
             "calls": 1
-        },
-        {
-            "id": "QueryNotifyPrint.start(self, message, id_type)",
-            "name": "start",
-            "params": "self, message, id_type",
-            "class": "QueryNotifyPrint",
-            "calls": 1
-        },
-        {
-            "id": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "name": "get_additional_data_text",
-            "params": "self, items, prepend",
-            "class": "QueryNotifyPrint",
-            "calls": 2
-        },
-        {
-            "id": "QueryNotifyPrint.update(self, result)",
-            "name": "update",
-            "params": "self, result",
-            "class": "QueryNotifyPrint",
-            "calls": 0
-        },
-        {
-            "id": "QueryNotifyPrint.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "QueryNotifyPrint",
-            "calls": 0
-        },
-        {
-            "id": "QueryStatus.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "QueryStatus",
-            "calls": 0
-        },
-        {
-            "id": "QueryResult.__init__(self, username, site_name, site_url_user, status, ids_data, query_time, context)",
-            "name": "__init__",
-            "params": "self, username, site_name, site_url_user, status, ids_data, query_time, context",
-            "class": "QueryResult",
-            "calls": 1
-        },
-        {
-            "id": "QueryResult.__str__(self)",
-            "name": "__str__",
-            "params": "self",
-            "class": "QueryResult",
-            "calls": 0
         }
     ],
     "links": [
         {
-            "source": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "target": "SiteInformation.__init__(self, name, url_home, url_username_format, popularity_rank, username_claimed, username_unclaimed, information)"
-        },
-        {
-            "source": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "target": "QueryNotify.__init__(self, result)"
-        },
-        {
-            "source": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "target": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)"
-        },
-        {
-            "source": "QueryNotifyPrint.__init__(self, result, verbose, print_found_only, skip_check_errors, color)",
-            "target": "QueryResult.__init__(self, username, site_name, site_url_user, status, ids_data, query_time, context)"
-        },
-        {
-            "source": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "target": "QueryNotify.start(self, message, id_type)"
-        },
-        {
-            "source": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "target": "QueryNotifyPrint.start(self, message, id_type)"
-        },
-        {
-            "source": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)",
-            "target": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)"
-        },
-        {
-            "source": "QueryNotifyPrint.update(self, result)",
-            "target": "QueryNotifyPrint.get_additional_data_text(self, items, prepend)"
+            "source": "Spline.__init__(self, points, degree, knots)",
+            "target": "chaos.py.GetKnots(points, degree)"
         }
     ]
 }
