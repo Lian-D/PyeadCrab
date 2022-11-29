@@ -10,5 +10,5 @@ The following packages are necessary:
 * Matplotlib.pyplot (https://matplotlib.org/stable/users/installing/index.html)
 
 ## Usage ##
-You will first need to open up the react portion of this project. To do so, visit [a link](https://github.students.cs.ubc.ca/CPSC410-2022W-T1/Project2Group8/blob/backend/frontend/README.md). <br>
+You will first need to open up the react portion of this project. To do so, visit [here](https://github.students.cs.ubc.ca/CPSC410-2022W-T1/Project2Group8/blob/backend/frontend/README.md). <br>
 Return to the command line and run a static or dynamic analysis following the instructions above. After you have verified that it has completed, go back to the frontend web page and click on "Update" to fetch the results of your analysis.
