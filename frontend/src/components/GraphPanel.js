@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useRecoilState, useRecoilValue, useSetRecoilState } from "recoil";
 import { heightState, highlightLinkState, highlightNodeState, selectedLinkState, selectedNodeState, toggleDynamicState, toggleSimpleState, widthState } from "../data/recoil-state";
 import DynamicGraph from "./DynamicGraph";
+import { maxNodeCalls, maxNodeRadius, minNodeCalls, minNodeRadius } from "./helper";
 import StaticGraph from "./StaticGraph";
 
 const GraphPanel = ({staticData, dynamicData}) => {
@@ -76,13 +77,13 @@ const GraphPanel = ({staticData, dynamicData}) => {
         l = Math.min(l, 90); 
         colourMapping[c] = `hsl(${h} ${s}% ${l}%)`;
       });
-      
+
       return colourMapping;
     };
 
-    let classes = [...new Set(staticData.nodes.map(n => n.class))];
+    let classes = [...new Set(staticData.nodes.map(n => n.class).concat(dynamicData.nodes.map(n => n.class)))];
     setColours(getColor(classes));
-  }, [staticData]);
+  }, [staticData, dynamicData]);
 
   useEffect(() => {
     const changeSize = () => {
@@ -98,7 +99,7 @@ const GraphPanel = ({staticData, dynamicData}) => {
   });
 
   const drawNodeHighlight = (node, ctx, bckgDimensions) => {
-    let r = isSimpleGraph ? bckgDimensions + 2 : bckgDimensions * 1.05;
+    let r = isSimpleGraph ? bckgDimensions + 2 : bckgDimensions * 1.1;
     ctx.fillStyle = "gold";
     if (selectedNode && node.id === selectedNode.id) {
       ctx.fillStyle = "rgba(100, 255, 100, 0.8)";
@@ -108,51 +109,78 @@ const GraphPanel = ({staticData, dynamicData}) => {
     ctx.fill();
   };
 
+  const drawNode = (node, ctx, data) => {
+    let maxCalls = maxNodeCalls(data);
+    let minCalls = minNodeCalls(data);
+    let difference = maxCalls === minCalls ? 1 : maxCalls - minCalls;
+    const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / difference) * (node.calls - minCalls);
+    node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+  
+    nodePointerArea(node, colours[node.class], ctx);
+    if (!isSimpleGraph) {
+        drawText(node, ctx);
+    }
+  };
+
   const nodePointerArea = (node, color, ctx) => {
     let simpleSize = Math.max(node.__bckgDimensions / 25, 4);
-      const bckgDimensions = isSimpleGraph ? simpleSize : node.__bckgDimensions;
-      if (highlightNodes.has(node)) {
-        drawNodeHighlight(node, ctx, bckgDimensions);
-      }
-      ctx.fillStyle = color;
-      ctx.beginPath();
-      ctx.ellipse(node.x, node.y, bckgDimensions, bckgDimensions , 0, 0, 2 * Math.PI);
-      ctx.fill();
+    const bckgDimensions = isSimpleGraph ? simpleSize : node.__bckgDimensions;
+    if (highlightNodes.has(node)) {
+      drawNodeHighlight(node, ctx, bckgDimensions);
+    }
+    ctx.fillStyle = color;
+    ctx.beginPath();
+    ctx.ellipse(node.x, node.y, bckgDimensions, bckgDimensions , 0, 0, 2 * Math.PI);
+    ctx.fill();
   }
 
-  const drawText = (node, ctx, text, fontSize) => {
-      ctx.lineJoin = 'round';
-      ctx.textAlign = 'center';
-      ctx.textBaseline = 'middle';
-      ctx.fillStyle = "black";
-      ctx.fillText(text, node.x, node.y)
+  const drawText = (node, ctx) => {
+    const functionLabel = node.name;
+    const classLabel = node.class + ".";
 
-      if (!node.class.endsWith(".py")) {
-          ctx.font = `${fontSize * 0.8}px Courier`;
-          const classLabel = node.class;
-          ctx.fillText(classLabel, node.x, node.y - fontSize);
-      }
+    ctx.lineJoin = 'round';
+    ctx.textAlign = 'center';
+    ctx.textBaseline = 'middle';
+    ctx.fillStyle = "black";
+
+    let textWidth = (2 * node.__bckgDimensions) * 0.8; // we need all of our text to fit in here
+    getFontSize(ctx, textWidth, functionLabel);
+    ctx.fillText(functionLabel, node.x, node.y)
+
+    let spacing = ctx.measureText("A").width / 2;
+    getFontSize(ctx, textWidth, classLabel);
+    spacing += ctx.measureText("A").width / 2;
+    ctx.fillText(classLabel, node.x, node.y - (spacing * 1.4));
   };
+
+  const getFontSize = (ctx, textWidth, text) => {
+    ctx.font = '10px Courier'; // if we want calculations to be accurate, this needs to be a monospace font
+    let charTextSizeRatio = 10 / ctx.measureText("a").width;
+    let fontSize = textWidth / (text.length + 1) * charTextSizeRatio;
+    if (text === "") {
+      fontSize = 1;
+    }
+    ctx.font = `${fontSize}px Courier`;
+    return fontSize;
+  }
 
   return (
     <>
     {!isDynamic && 
       <StaticGraph 
         data={staticData}
-        colours={colours}
         handleLinkClick={handleLinkClick}
         handleNodeClick={handleNodeClick}
-        drawText={drawText}
+        drawNode={drawNode}
         nodePointerArea={nodePointerArea}
       />
     }
     {isDynamic && 
       <DynamicGraph 
         data={dynamicData}
-        colours={colours}
         handleLinkClick={handleLinkClick}
         handleNodeClick={handleNodeClick}
-        drawText={drawText}
+        drawNode={drawNode}
         nodePointerArea={nodePointerArea}
       />}
     </>

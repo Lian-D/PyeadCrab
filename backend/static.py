@@ -2,6 +2,7 @@ import sys
 import os
 import ast
 import json
+# from tqdm import tqdm
 
 # This is a function class map we use to confirm our data
 functionClassMap = []
@@ -80,6 +81,8 @@ def iterateClass(classAst):
 def readRepo(repo):
     # Open the module with the trace function and retrieve its AST
     directoryArr = os.listdir(repo)
+    # pbar = tqdm(directoryArr)
+    # pbar.set_description("processing static files")
 
     for fileName in directoryArr:
         try:
@@ -107,7 +110,8 @@ def createForceGraphStructure():
     for function in functionClassMap:
         nodeObj = {
         "id": function.get("className")+"."+function.get("functionName")+"("+', '.join(function.get("args"))+")",
-        "name": function.get("functionName")+"("+', '.join(function.get("args"))+")",
+        "name": function.get("functionName"),
+        "params": ', '.join(function.get("args")),
         "class": function.get("className"),
         "calls": 0
         }
@@ -143,7 +147,7 @@ def createForceGraphStructure():
 def execute(repo):
     readRepo(repo)
     ret = createForceGraphStructure()
-    print(ret)
+    # print(ret)
     jsonOutput = json.dumps(ret, indent=4)
     with open('../frontend/src/data/static.json', 'w+') as outfile:
         outfile.write(jsonOutput)

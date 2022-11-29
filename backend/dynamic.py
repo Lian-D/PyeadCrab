@@ -2,6 +2,8 @@ import sys
 import os
 import tracer
 import ast
+import analysis
+import json
 from pathlib import Path
 # Map of functions and their classes. Key is function name with arguments, value is list of classes/modules it belongs under
 functionClassMap = {}
@@ -48,7 +50,6 @@ def iterateClass(classAst):
 def readRepo(repo):
     # Open the module with the trace function and retrieve its AST
     directoryArr = os.listdir(repo)
-    
     for fileName in directoryArr:
         try:
             file = repo+fileName
@@ -64,13 +65,12 @@ def readRepo(repo):
             pass
 
 
-def execute(targetPath, targetCmdArgs):
+def execute(targetRepoPath, targetPath, targetCmdArgs):
     globals()["__name__"] = "__main__"
     # Get path from command line arguments and insert it into the system
-    dir_path = os.path.dirname(os.path.realpath(targetPath))
-    sys.path.insert(0, dir_path)
+    sys.path.insert(0, targetRepoPath)
     # Read the directory of the target program to produce map of user defined classes/modules and their functions
-    readRepo(dir_path + "\\")
+    readRepo(targetRepoPath)
     # Pass map to tracer script and start the tracing
     tracer.setGlobals(functionClassMap,classSet)
     tracer.start()
@@ -81,5 +81,6 @@ def execute(targetPath, targetCmdArgs):
     sys.argv = finalTargetCmdArgs
     exec(open(targetPath).read(), globals(), globals())
     tracer.fillInEntry(targetEntryPoint)
+    ret = analysis.analyze(tracer.callTrace)
     with open('../frontend/src/data/dynamic.json', 'w+') as outfile:
-        outfile.write(str(tracer.callTrace))
+        outfile.write(json.dumps(ret, indent=4))
