@@ -112,7 +112,8 @@ const GraphPanel = ({staticData, dynamicData}) => {
   const drawNode = (node, ctx, data) => {
     let maxCalls = maxNodeCalls(data);
     let minCalls = minNodeCalls(data);
-    const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / (maxCalls - minCalls)) * (node.calls - minCalls);
+    let difference = maxCalls === minCalls ? 1 : maxCalls - minCalls;
+    const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / difference) * (node.calls - minCalls);
     node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
   
     nodePointerArea(node, colours[node.class], ctx);
