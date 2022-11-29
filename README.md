@@ -1,7 +1,7 @@
 # PyeadCrab (Project2Group8)
 ![](frontend/src/data/pyeadCrab2.png)
 
-PyeadCrab is a code analysis tool designed to do static and dynamic analysis on python repo projects. It focuses on identifying potential areas of interlinked code in addition to applying markov models to dynamically predicted likelihood of calls.
+PyeadCrab is a code analysis tool designed to do static and dynamic analysis on python repo projects. It focuses on identifying potential areas of interlinked code in addition to applying markov models to dynamically predict likelihood of calls.
 
 For reference to class based milestones [this file](milestones.md)
 
