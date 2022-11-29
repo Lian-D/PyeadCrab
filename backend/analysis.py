@@ -102,9 +102,14 @@ def analyze(dynamic):
         if (link.get("source") not in validFunction):
             ghost = link.get("source")
             validFunction.append(ghost)
-            ghostClass = ghost.split('.')[0]
-            ghostName = ghost.split('.')[1].split('(')[0]
-            ghostParams = ghost.split('(')[1].split(')')[0]
+            splits = ghost.split('.')
+            ghostClass = splits[0]
+            if len(splits) >= 1 and splits[1] == "py":
+                ghostClass = ghostClass + ".py"
+            ghostName = splits[len(splits)-1]
+            ghostParams = ghostName[ghostName.find("(")+1:ghostName.rfind(")")]
+            if (ghostParams == ['']):
+                ghostParams = []
             nodeObj = {
                 'id': ghost,
                 'class': ghostClass,
@@ -116,9 +121,14 @@ def analyze(dynamic):
         if (link.get("target") not in validFunction):
             ghost = link.get("target")
             validFunction.append(ghost)
-            ghostClass = ghost.split('.')[0]
-            ghostName = ghost.split('.')[1].split('(')[0]
-            ghostParams = ghost.split('(')[1].split(')')[0]
+            splits = ghost.split('.')
+            ghostClass = splits[0]
+            if len(splits) >= 1 and splits[1] == "py":
+                ghostClass = ghostClass + ".py"
+            ghostName = splits[len(splits)-1]
+            ghostParams = ghostName[ghostName.find("(")+1:ghostName.rfind(")")]
+            if (ghostParams == ['']):
+                ghostParams = []
             nodeObj = {
                 'id': ghost,
                 'class': ghostClass,
