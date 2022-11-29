@@ -444,6 +444,7 @@
     ],
     "links": [
         {
+
             "source": "Strength.__init__(self, strength, name)",
             "target": "Strength.__init__(self, strength, name)"
         },

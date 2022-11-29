@@ -3,68 +3,46 @@ import ForceGraph2D from 'react-force-graph-2d';
 import {forceCollide} from "d3-force";
 import { useRecoilValue } from "recoil";
 import { highlightLinkState, widthState, heightState, toggleSimpleState } from "../data/recoil-state";
+import { maxLinkCalls, maxLinkLength, maxNodeRadius, minLinkLength, minNodeRadius } from "./helper";
 
-const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText, nodePointerArea}) => {
+const DynamicGraph = ({data, handleNodeClick, handleLinkClick, drawNode, nodePointerArea}) => {
   const width = useRecoilValue(widthState);
   const height = useRecoilValue(heightState);
   const highlightLinks = useRecoilValue(highlightLinkState);
   const isSimpleGraph = useRecoilValue(toggleSimpleState);
   const graphRef = useRef();
 
-  const minNodeRadius = 100
-  const maxNodeRadius = 300
-  const minLinkLength = 3 * maxNodeRadius;
-  const maxLinkLength = 2 * minLinkLength;
-
-  const maxNodeCalls = data.nodes.reduce(
-        (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
-        0
-  );
-  const minNodeCalls = data.nodes.reduce(
-        (accumulator, currentValue) => Math.min(accumulator, currentValue.calls),
-        Infinity
-  );
-  const maxLinkCalls = data.links.reduce(
-        (accumulator, currentValue) => Math.max(accumulator, currentValue.calls),
-        0
-  );
-
   useEffect(() => {
-    graphRef.current.d3Force('link')
-    .distance(link => {
-        // scales depending on calls between max and min length
-        // we might want to make these scale relative to the most amount of calls on the nodes
-        let length = minLinkLength + (1 - (link.calls / maxLinkCalls)) * (maxLinkLength - minLinkLength);
-        link.length = length;
-        return length;
-    });
-    graphRef.current.d3Force('collide', forceCollide(minNodeRadius + maxNodeRadius));
-  }, [maxLinkCalls, minLinkLength, maxLinkLength]);
+    graphRef.current.d3Force('collide', forceCollide(minNodeRadius + maxNodeRadius / 2));
+  }, []);
 
-  const drawNode = (node, ctx) => {
-      const text = node.id;
-      const bckgDimensions = minNodeRadius + ((maxNodeRadius - minNodeRadius) / (maxNodeCalls - minNodeCalls)) * (node.calls - minNodeCalls);
+  const onTick = () => {
+    if (graphRef.current) {
+      graphRef.current.d3Force('link')
+      .distance(link => {
+          // scales depending on calls between max and min length
+          // we might want to make these scale relative to the most amount of calls on the nodes
+          let length = minLinkLength + (1 - (link.calls / maxLinkCalls(data))) * (maxLinkLength - minLinkLength);
+          link.length = length;
+          return length;
+      });
+    }
+  }
 
-      const textWidth = (2 * bckgDimensions) * 0.8; // we need all of our text to fit in here
-      ctx.font = '10px Courier'; // if we want calculations to be accurate, this needs to be a monospace font
-      const charTextSizeRatio = 10 / ctx.measureText("a").width
-      const fontSize = textWidth / text.length * charTextSizeRatio;
-      ctx.font = `${fontSize}px Courier`;
+  const linkArrowPlacement = (link) => {
+    return isSimpleGraph ? 1 : (link.length - link.target.__bckgDimensions) / link.length;
+  }
 
-      node.__bckgDimensions = bckgDimensions; // to re-use in nodePointerAreaPaint
+  const arrowSize = (link) => {
+    return 35 * (link.width / 2);
+  }
 
-      nodePointerArea(node, colours[node.class], ctx);
-      
-      if (!isSimpleGraph) {
-        drawText(node, ctx, text, fontSize);
-  
-        // maybe keep this info on the side to avoid clutter
-        // const calls = "calls: " + node.calls;
-        // ctx.font = `${fontSize * 0.6}px Courier`;
-        // ctx.strokeText(calls, node.x, node.y + fontSize);
-        // ctx.fillText(calls, node.x, node.y + fontSize)
-      }
-  };
+  const linkWidth = (link) => {
+    let width = highlightLinks.has(link) ? 2 : 1;
+    width += (4 * link.probability);
+    link.width = width;
+    return width;
+  }
 
   return (
       <ForceGraph2D 
@@ -72,16 +50,17 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
           width={width}
           height={height}
           graphData={data}
-          linkDirectionalArrowLength={isSimpleGraph ? 20 : 35}
-          linkDirectionalArrowRelPos={isSimpleGraph ? 1 : (link) => (link.length - link.target.__bckgDimensions) / link.length}
-          linkLabel="calls"
-          nodeCanvasObject={drawNode}
+          linkDirectionalArrowLength={arrowSize}
+          linkDirectionalArrowRelPos={linkArrowPlacement}
+          linkDirectionalArrowColor={(link) => highlightLinks.has(link) ? "rgb(255,255,0)" : "rgb(230,230,230)"}
+          nodeCanvasObject={(node, ctx) => drawNode(node, ctx, data)}
           nodePointerAreaPaint={nodePointerArea}
-          linkColor={(link) => highlightLinks.has(link) ? "yellow" : "lightyellow"}
-          linkWidth={(link) => highlightLinks.has(link) ? 2 : 1}
+          linkColor={(link) => highlightLinks.has(link) ? "rgba(255,255,0,0.8)" : "rgba(230,230,230,0.8)"}
+          linkWidth={linkWidth}
           autoPauseRedraw={false}
           onNodeClick={(node) => handleNodeClick(node, data)}
           onLinkClick={handleLinkClick}
+          onEngineTick={onTick}
       />
   );
 }

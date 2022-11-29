@@ -23,11 +23,6 @@
   overflow: auto;
 }
 
-.header {
-  background-color: rgb(41, 43, 51);
-  z-index: 10;
-}
-
 #logo {
   display: flex;
 }
@@ -52,4 +47,14 @@ h1 {
 
 #status {
   padding-left: 3%;
+}
+
+.table {
+  width: 100%;
+  word-wrap:break-word;
+  table-layout: fixed;
+}
+
+table tr th:first-child{
+  width: 30%;
 }
