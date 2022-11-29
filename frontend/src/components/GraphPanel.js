@@ -83,7 +83,7 @@ const GraphPanel = ({staticData, dynamicData}) => {
 
     let classes = [...new Set(staticData.nodes.map(n => n.class).concat(dynamicData.nodes.map(n => n.class)))];
     setColours(getColor(classes));
-  }, [staticData]);
+  }, [staticData, dynamicData]);
 
   useEffect(() => {
     const changeSize = () => {

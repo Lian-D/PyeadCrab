@@ -88,7 +88,7 @@ const DetailsPanel = ({setStaticData, setDynamicData}) => {
                 <tbody>
                   {[...selectedLinks].map((link, i) => {
                     let row = <tr key={i}>
-                                <td>{link.probability ? link.probability.toFixed(5) : null}</td>
+                                <td>{link.probability ? link.probability.toFixed(5) : "N/A"}</td>
                                 <td>{`${link.target.class}.${link.target.name}`}</td>
                               </tr>;
                     return row;
