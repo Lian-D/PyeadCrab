@@ -1,5 +1,5 @@
-import "./App.css";
 import 'bootstrap/dist/css/bootstrap.min.css';
+import "./App.css";
 import React, { useState } from "react";
 import DetailsPanel from "./components/DetailsPanel";
 import GraphPanel from "./components/GraphPanel";

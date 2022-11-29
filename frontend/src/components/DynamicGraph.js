@@ -1,5 +1,6 @@
 import React, { useEffect, useRef } from "react";
 import ForceGraph2D from 'react-force-graph-2d';
+import {forceCollide} from "d3-force";
 import { useRecoilValue } from "recoil";
 import { highlightLinkState, widthState, heightState, toggleSimpleState } from "../data/recoil-state";
 
@@ -37,6 +38,7 @@ const DynamicGraph = ({data, colours, handleNodeClick, handleLinkClick, drawText
         link.length = length;
         return length;
     });
+    graphRef.current.d3Force('collide', forceCollide(minNodeRadius + maxNodeRadius));
   }, [maxLinkCalls, minLinkLength, maxLinkLength]);
 
   const drawNode = (node, ctx) => {
