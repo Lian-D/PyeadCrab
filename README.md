@@ -11,7 +11,8 @@ For reference to class based milestones [this file](milestones.md)
 1. make sure `python` > 3 is installed 
 2. `cd backend`
 3. `pip -r install requirements.txt`
-4. refer to [this file](backend/readme.md) for how to run on repos
+4. refer to [this file](docs/running_pyeadCrab.md) for how to run on repos
+5. and [this file](backend/readme.md) for backend documentation
 
 ### Frontend
 1. make sure you have npm installed
@@ -20,14 +21,16 @@ For reference to class based milestones [this file](milestones.md)
 4. `npm start`
 
 ---
-## Sampple Results
+## Sample Results
+Refer to [this file](docs/running_samples.md) for how to run our provided sample code
+
 The following is the static and dynamic renders of `samplecode/selected_benchmarks/deltablue` from the command executed in `/backend/` 
 
-`python main.py -d '../samplecode/deltablue/' '../samplecode/deltablue/deltablue.py'` 
+`python main.py -d '../samplecode/selected_benchmarks/deltablue/' '../samplecode/selected_benchmarks/deltablue/deltablue.py'` 
 
 and 
 
-`python main.py -s '../samplecode/deltablue/'`
+`python main.py -s '../samplecode/selected_benchmarks/deltablue/'`
 
 Static Analysis
 ![](docs/resources/static.png)
